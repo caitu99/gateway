@@ -1,0 +1,299 @@
+.logo {
+   width: 50px;
+   height: 50px;
+   margin-top: -10px;
+   margin-left: 19px;
+ }
+
+.apiconfig {
+    margin-left: 350px;
+}
+
+#apiType {
+    margin: 50px 0 0 350px;
+}
+
+.preStep {
+    float:left;
+    margin:-7px 0 0 -15px;
+    border:0px;
+    display:none;
+}
+
+.nextStep {
+    float:right;
+    margin:-7px -15px 0 0;
+    border:0px;
+}
+
+.finalSave {
+    float: right;
+    margin: -7px -2px 0 0;
+    border: 0px;
+    display: none;
+}
+
+.hasMapping {
+    float: right;
+    margin: -7px -2px 0 0;
+    border: 0px;
+    display: none;
+}
+
+.hasMethod {
+    float: right;
+    margin: -7px -2px 0 0;
+    border: 0px;
+    display: none;
+}
+
+.hasApi {
+    float: right;
+    margin: -7px -2px 0 0;
+    border: 0px;
+    display: none;
+}
+
+.apiconfig1 {
+    display:none;
+}
+
+#addRow_carmenParam {
+    float: right;
+}
+
+.apiconfig2  {
+    display:none;
+}
+
+#addRow_carmenMethodParam {
+    float: right;
+}
+
+.methodconfig {
+    display: none;
+}
+
+#addRow_carmenStructure {
+    float: right;
+}
+
+.structureconfig {
+    display: none;
+}
+
+.methodmappingconfig {
+    display: none;
+}
+
+.parammappingconfig {
+    display: none;
+}
+
+#addRow_carmenParamMapping {
+    float: right;
+}
+
+#namespaceMethodMappingApi, #namespaceMethodMapping {
+    min-width: 260px;
+}
+
+#nameMethodMappingApi, #nameMethodMapping {
+    min-width: 160px;
+}
+
+/*
+.configStepx {
+    margin-top: 60px;
+    margin-left: 188px;
+}
+
+.configStepx ul li
+{
+    float:left;
+    height:23px;
+    padding:0 40px 0 30px;
+    line-height:23px;
+    text-align:center;
+    background:100% 0 #E4E4E4;
+    font-weight:bold;
+    list-style-type:none;
+    width:133px;
+ }
+.configStepx ul li.done {
+    background-position:100% -46px;
+    background-color:#FFEDA2;
+}
+.configStepx ul li.current_prev {
+    background-position:100% -23px;
+    background-color:#FFEDA2;
+}
+.configStepx ul li.current {
+    color:#fff;
+    background-color:#990D1B;
+}
+.configStepx ul li.last {
+    background-image:none;
+}
+*/
+
+/*主体内容居中对齐*/
+.center-content {
+    margin: 0 auto;
+    width: 70%;/*限制了66%的宽度，可以自己调整*/
+    margin-top: 90px;/*跟顶部的高度*/
+}
+
+
+/*步骤条*/
+ul.nav-wizard {
+  background-color: #f9f9f9;
+  border: 1px solid #d4d4d4;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  *zoom: 1;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+ul.nav-wizard:before {
+  display: block;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 46px;
+  height: 47px;
+  border-top: 1px solid #d4d4d4;
+  border-bottom: 1px solid #d4d4d4;
+  z-index: 11;
+  content: " ";
+}
+ul.nav-wizard:after {
+  display: block;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 138px;
+  height: 47px;
+  border-top: 1px solid #d4d4d4;
+  border-bottom: 1px solid #d4d4d4;
+  z-index: 11;
+  content: " ";
+}
+ul.nav-wizard li {
+  position: relative;
+  float: left;
+  height: 46px;
+  display: inline-block;
+  text-align: middle;
+  padding: 0 40px 0 50px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 46px;
+}
+ul.nav-wizard li a {
+  color: #468847;
+  padding: 0;
+}
+ul.nav-wizard li a:hover {
+  background-color: transparent;
+}
+ul.nav-wizard li:before {
+  position: absolute;
+  display: block;
+  border: 24px solid transparent;
+  border-left: 16px solid #d4d4d4;
+  border-right: 0;
+  top: -1px;
+  z-index: 10;
+  content: '';
+  right: -16px;
+}
+ul.nav-wizard li:after {
+  position: absolute;
+  display: block;
+  border: 24px solid transparent;
+  border-left: 16px solid #f9f9f9;
+  border-right: 0;
+  top: -1px;
+  z-index: 10;
+  content: '';
+  right: -15px;
+}
+ul.nav-wizard li.active {
+  color: #3a87ad;
+  background: #d9edf7;
+}
+ul.nav-wizard li.active:after {
+  border-left: 16px solid #d9edf7;
+}
+ul.nav-wizard li.active a,
+ul.nav-wizard li.active a:active,
+ul.nav-wizard li.active a:visited,
+ul.nav-wizard li.active a:focus {
+  color: #3a87ad;
+  background: #d9edf7;
+}
+ul.nav-wizard .active ~ li {
+  color: #999999;
+  background: #ededed;
+}
+ul.nav-wizard .active ~ li:after {
+  border-left: 16px solid #ededed;
+}
+ul.nav-wizard .active ~ li a,
+ul.nav-wizard .active ~ li a:active,
+ul.nav-wizard .active ~ li a:visited,
+ul.nav-wizard .active ~ li a:focus {
+  color: #999999;
+  background: #ededed;
+}
+ul.nav-wizard.nav-wizard-backnav li:hover {
+  color: #468847;
+  background: #f6fbfd;
+}
+ul.nav-wizard.nav-wizard-backnav li:hover:after {
+  border-left: 16px solid #f6fbfd;
+}
+ul.nav-wizard.nav-wizard-backnav li:hover a,
+ul.nav-wizard.nav-wizard-backnav li:hover a:active,
+ul.nav-wizard.nav-wizard-backnav li:hover a:visited,
+ul.nav-wizard.nav-wizard-backnav li:hover a:focus {
+  color: #468847;
+  background: #f6fbfd;
+}
+ul.nav-wizard.nav-wizard-backnav .active ~ li {
+  color: #999999;
+  background: #ededed;
+}
+ul.nav-wizard.nav-wizard-backnav .active ~ li:after {
+  border-left: 16px solid #ededed;
+}
+ul.nav-wizard.nav-wizard-backnav .active ~ li a,
+ul.nav-wizard.nav-wizard-backnav .active ~ li a:active,
+ul.nav-wizard.nav-wizard-backnav .active ~ li a:visited,
+ul.nav-wizard.nav-wizard-backnav .active ~ li a:focus {
+  color: #999999;
+  background: #ededed;
+}
+
+
+.cut {
+  margin-left: 6px;
+  display: none;
+}
+
+.table {
+    margin-bottom:-12px;
+    margin-left:0;
+}
+
+.parammappingconfig {
+    margin-bottom: -11px;
+}
+
+.dropdown-menu {
+    min-width: 100px;
+}
+

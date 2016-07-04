@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.oauth.dao.user.AccountMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.gateway.oauth.model.Account" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="total_integral" property="totalIntegral" jdbcType="BIGINT" />
+    <result column="available_integral" property="availableIntegral" jdbcType="BIGINT" />
+    <result column="freeze_integral" property="freezeIntegral" jdbcType="BIGINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, total_integral, available_integral, freeze_integral, gmt_create, gmt_modify
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_account
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_account
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.gateway.oauth.model.Account" >
+    insert into t_account (id, user_id, total_integral, 
+      available_integral, freeze_integral, gmt_create, 
+      gmt_modify)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{totalIntegral,jdbcType=BIGINT}, 
+      #{availableIntegral,jdbcType=BIGINT}, #{freezeIntegral,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModify,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.gateway.oauth.model.Account" >
+    insert into t_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="totalIntegral != null" >
+        total_integral,
+      </if>
+      <if test="availableIntegral != null" >
+        available_integral,
+      </if>
+      <if test="freezeIntegral != null" >
+        freeze_integral,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="totalIntegral != null" >
+        #{totalIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="availableIntegral != null" >
+        #{availableIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="freezeIntegral != null" >
+        #{freezeIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.gateway.oauth.model.Account" >
+    update t_account
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="totalIntegral != null" >
+        total_integral = #{totalIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="availableIntegral != null" >
+        available_integral = #{availableIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="freezeIntegral != null" >
+        freeze_integral = #{freezeIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByUser" parameterType="com.caitu99.gateway.oauth.model.Account" >
+    update t_account
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="totalIntegral != null" >
+        total_integral = #{totalIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="availableIntegral != null" >
+        available_integral = #{availableIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="freezeIntegral != null" >
+        freeze_integral = #{freezeIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.gateway.oauth.model.Account" >
+    update t_account
+    set user_id = #{userId,jdbcType=BIGINT},
+      total_integral = #{totalIntegral,jdbcType=BIGINT},
+      available_integral = #{availableIntegral,jdbcType=BIGINT},
+      freeze_integral = #{freezeIntegral,jdbcType=BIGINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  <update id="updateIntegralByUserId" parameterType="com.caitu99.gateway.oauth.model.Account" >
+    update t_account
+    <set >
+      <if test="totalIntegral != null" >
+        total_integral = #{totalIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="availableIntegral != null" >
+        available_integral = #{availableIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="freezeIntegral != null" >
+        freeze_integral = #{freezeIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    	<include refid="Base_Column_List" />
+    from 
+    	t_account
+    where 
+    	user_id = #{userId,jdbcType=BIGINT}
+  </select>
+</mapper>

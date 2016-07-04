@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.frequency.dao.gateway.IFreqLog1DAO" >
+  <resultMap id="BaseResultMap" type="com.caitu99.gateway.frequency.model.CarmenFreqLog1" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="distance_from" property="distanceFrom" jdbcType="BIGINT" />
+    <result column="hash" property="hash" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ip, distance_from, hash, count
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_freq_log1
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from t_freq_log1
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="save" parameterType="com.caitu99.gateway.frequency.model.CarmenFreqLog1" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_freq_log1
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="distanceFrom != null" >
+        distance_from,
+      </if>
+      <if test="hash != null" >
+        hash,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+    </trim>
+
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="distanceFrom != null" >
+        #{distanceFrom,jdbcType=BIGINT},
+      </if>
+      <if test="hash != null" >
+        #{hash,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.caitu99.gateway.frequency.model.CarmenFreqLog1" >
+    update t_freq_log1
+    <set >
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="distanceFrom != null" >
+        distance_from = #{distanceFrom,jdbcType=BIGINT},
+      </if>
+      <if test="hash != null" >
+        hash = #{hash,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>

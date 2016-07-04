@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Gateway</title>
+
+    <!-- Bootstrap -->
+    <link href="/statics/css/bootstrap.css" rel="stylesheet" />
+    <link href="/statics/css/font-awesome.css" rel="stylesheet" />
+    <link href="/statics/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="/statics/css/release.css" rel="stylesheet" />
+    <link href="/statics/images/favicon.ico"  rel="Shortcut Icon"/>
+
+</head>
+<body>
+
+<!-- 导航条 -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="apilist?env=$!results.get('env')">
+                <img alt="Brand" class="logo"  src="/statics/imag/logo2.jpg">
+            </a>
+
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active1"><a href="apilist?env=$!results.get('env')"><h3 style="margin:0 0 0 0;">Gateway</h3> <span class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul id="myTitle" class="nav nav-pills" style="margin:9px 0 0 0;">
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Home</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Config</a></li>
+                <li role="presentation" class="active"><a href="#" role="tab" data-toggle="tab" class="titles">Release</a></li>
+                <!--<li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Monitor</a></li>-->
+                <li role="presentation" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-haspopup="true" aria-expanded="false"><span id="consoleText">Console</span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" >
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console ">Monitor</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Manual</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Cache</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Instance</a></li>
+                        #if($!results.get("isAdmin"))
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">LogView</a></li>
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">Users</a></li>
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">RecoverApi</a></li>
+                        #end
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left" id="env" style="margin: -38px 0 0 42%;">
+                <div class="form-group radio">
+                    #if(2 == $!results.get('env'))
+                        <input class="envRadio" type="radio" name="env"  value="1" >
+                        <label><p class="text-primary">dev</p></label>
+                        <input class="envRadio" type="radio" name="env" value="2" checked>
+                        <label><p class="text-primary">test</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="3">
+                        <label><p class="text-primary">product</p></label>
+                    #elseif(3 == $!results.get('env'))
+                        <input class="envRadio" type="radio" name="env"  value="1" >
+                        <label><p class="text-primary">dev</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="2">
+                        <label><p class="text-primary">test</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="3" checked>
+                        <label><p class="text-primary">product</p></label>
+                    #else
+                        <input class="envRadio" type="radio" name="env"  value="1" checked>
+                        <label><p class="text-primary">dev</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="2">
+                        <label><p class="text-primary">test</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="3">
+                        <label><p class="text-primary">product</p></label>
+                    #end
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin:-50px 50px 0 0;"><p class="navbar-text">Welcome <span class="glyphicon glyphicon-user"></span> $!results.get('user')</p></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li role="presentation" style="margin:-63px -35px 0 0;" class="help">
+                    <a href="#">
+                        <p class="navbar-text"><strong>帮助</strong> <span class="glyphicon glyphicon-question-sign" aria-hidden="true"  class="needTip" data-toggle="tooltip" data-placement="left" title="查看帮助文档"></span></p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-primary" style="margin-top:58px;min-height:460px;">
+                <div class="panel-heading">API 列表
+                    <button type="button" class="btn btn-primary" flag="1" id="selectAll" style="float:right;margin:-7px -15px 0 0; border:0px;">全选</button>
+                    <button type="button" class="btn btn-primary" flag="1" id="sureReleasedApi" style="float:right;margin:-7px -1px 0 0; border:0px;">确定发布</button>
+                    <button type="button" class="btn btn-primary" flag="1" id="uploadApi" style="float:right;margin:-7px -1px 0 0; border:0px;">上传</button>
+                    <button type="button" class="btn btn-primary" flag="1" id="releaseApi" style="float:right;margin:-7px -1px 0 0; border:0px;">下载</button>
+                    #if($!results.get("isAdmin"))
+                        <button type="button" class="btn btn-primary" id="physicalDeleteApi" style="float:right;margin:-7px -1px 0 0; border:0px;">物理删除</button>
+                    #end
+                </div>
+                <!-- List group -->
+                <ul class="list-group" id="listAPI">
+                    #foreach ($!apiElement in $!results.get("apilists"))
+                        #if(2 == $!apiElement.migrateFlag)
+                            <li class="list-group-item apiElement list-group-item-warning">
+                        #else
+                            <li class="list-group-item apiElement ">
+                        #end
+                            #if(2 == $!apiElement.migrateFlag)
+                                <span style="margin: 0 6px 0 -10px;" data-toggle="tooltip" data-placement="top" title="正在发布" class="icon-spinner icon-spin releasing"></span>
+                                <a href="#">$!apiElement.namespace.$!apiElement.name.$!apiElement.version</a>
+                            #else
+                                <a href="#">$!apiElement.namespace.$!apiElement.name.$!apiElement.version</a>
+                            #end
+                            <!--<a href="#" data-toggle="tooltip" data-placement="top" title="删除" style="float:right" >-->
+                                <!--<span apiID="$!apiElement.id" class="glyphicon glyphicon-trash deleteIcon"></span>-->
+                            <!--</a>-->
+                            #if(2 == $!apiElement.migrateFlag)
+                                <input style="float:right" class="select" apiContent="$!{apiElement.namespace}.$!{apiElement.name}.$!{apiElement.version}" flag="2" apiId="$!apiElement.id" type="checkbox" checked disabled>
+                            #elseif(3 == $!apiElement.migrateFlag)
+                                <input style="float:right" class="select" apiContent="$!{apiElement.namespace}.$!{apiElement.name}.$!{apiElement.version}" flag="3" apiId="$!apiElement.id" type="checkbox" disabled>
+                            #else
+                                <input style="float:right" class="select" apiContent="$!{apiElement.namespace}.$!{apiElement.name}.$!{apiElement.version}" flag="1" apiId="$!apiElement.id" type="checkbox">
+                            #end
+                        </li>
+                    #end
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+</div>
+
+<!-- Release Modal -->
+<div class="modal fade" id="myReleaseModal" tabindex="-1" role="dialog" aria-labelledby="myReleaseLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top:160px;">
+        <div class="modal-content" style="margin-top:-100px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myReleaseLabel">发布API</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="fromDev" class="col-sm-2 control-label">From: </label>
+                        <div class="col-sm-6" style="margin-left:16px;">
+                            <p name="fromDev" id="fromDev">dev</p>
+                        </div>
+                        <!--<input type="text" class="form-control" name="fromDev" id="fromDev" placeholder="Enter request URL here">-->
+                    </div>
+                    <div class="form-group">
+                        <label for="ToDev" class="col-sm-2 control-label" style="margin-top:-6px;">To: </label>
+                        <div class="col-sm-6">
+                            <select style="min-width:50px;max-height:28px;margin-top:-12px;" id="ToDev"  name="ToDev" class="form-control" >
+                                <option id="devRelease" value="1" selected>dev</option>
+                                <option id="testRelease" value="2" >test</option>
+                                <option id="productRelease" value="3" >product</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="panel panel-default releasingApi">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">本次有<span id="numbers"></span>条API从<span id="fromEnv"></span>发布到<span id="toEnv"></span>环境中</h3>
+                    </div>
+                    <div class="panel-body" style="max-height:246px;overflow-y:auto;padding:-15px;padding:0;">
+                        <!-- List group -->
+                        <ul class="list-group" id="releaseApiList">
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="alert alert-danger" role="alert" style="margin-bottom: -1px;display:none;" id="apiReleaseInfo"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureRelease">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- upload Modal -->
+<div class="modal fade" id="myUploadModal" tabindex="-1" role="dialog" aria-labelledby="myUploadLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top:160px;">
+        <div class="modal-content" style="margin-top:-100px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myUploadLabel">发布API</h4>
+            </div>
+            <div class="modal-body">
+                <form target="_self" action="upload" runat="server" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="file">File input</label>
+                        <input type="file" name="file" id="file">
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left:80%;">取消</button>
+                    <button type="submit" class="btn btn-primary">确定</button>
+                </form>
+
+                <div class="alert alert-danger" role="alert" style="margin-bottom: -1px;display:none;" id="apiUploadInfo"></div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
+                    <!--<button type="button" class="btn btn-primary" id="sureUpload">确定</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Sure Release Modal -->
+<div class="modal fade" id="mySureReleaseModal" tabindex="-1" role="dialog" aria-labelledby="mySureReleaseLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top:160px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mySureReleaseLabel">修改白名单</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline SureReleaseForm">
+                    <div class="form-group radio">
+                        <input class="yesReleaseRadio" type="radio" name="Release" id="yesRelease" value="1" checked>
+                        <label><p class="text-primary">确认API发布已经成功</p></label>
+                        <input class="noReleaseRadio" type="radio" name="Release" id="noRelease" value="2">
+                        <label><p class="text-primary">取消正在发布的API</p></label>
+                    </div>
+                </form>
+
+            </div>
+            <div class="alert alert-danger" role="alert" style="margin-bottom: -1px;display:none;" id="apiRelease1Info"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureIfRelease">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="user" value="$!results.get('user')" />
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/statics/js/jquery.js"></script>
+<script src="/statics/js/bootstrap.js"></script>
+<script src="/statics/js/jquery.validate.min.js"></script>
+<script src="/statics/js/jquery.metadata.js"></script>
+<script src="/statics/js/jquery.dataTables.min.js"></script>
+<script src="/statics/js/icheck.js"></script>
+<script src="/statics/js/release.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+
+<footer style="margin-top: -20px;">
+    <hr>
+    <p class="text-muted text-center">© caitu99.com</p>
+</footer>
+</body>
+</html>

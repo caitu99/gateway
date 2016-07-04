@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.apiconfig.dao.gateway.IResourceDAO" >
+  <resultMap id="BaseResultMap" type="com.caitu99.gateway.apiconfig.model.OpenResource" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uri" property="uri" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="group_alias" property="groupAlias" jdbcType="VARCHAR" />
+    <result column="is_write" property="isWrite" jdbcType="TINYINT" />
+    <result column="is_inner" property="isInner" jdbcType="TINYINT" />
+    <result column="level" property="level" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="ref_api_id" property="refApiId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uri, description, group_alias, is_write, is_inner, level, create_time, update_time, 
+    version, ref_api_id
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_resource
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getByUri" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_resource
+    where uri = #{uri,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="getByUriVersion" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_resource
+    where uri = #{uri,jdbcType=VARCHAR} and version=#{version,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getResourceUriList" resultType="java.lang.String">
+    select DISTINCT uri  from t_resource
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from t_resource
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByUri" >
+    delete from t_resource
+    where uri = #{uri,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.caitu99.gateway.apiconfig.model.OpenResource" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uri != null" >
+        uri,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="groupAlias != null" >
+        group_alias,
+      </if>
+      <if test="isWrite != null" >
+        is_write,
+      </if>
+      <if test="isInner != null" >
+        is_inner,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="refApiId != null" >
+        ref_api_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uri != null" >
+        #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="groupAlias != null" >
+        #{groupAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="isWrite != null" >
+        #{isWrite,jdbcType=TINYINT},
+      </if>
+      <if test="isInner != null" >
+        #{isInner,jdbcType=TINYINT},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="refApiId != null" >
+        #{refApiId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.caitu99.gateway.apiconfig.model.OpenResource" >
+    update t_resource
+    <set >
+      <if test="uri != null" >
+        uri = #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="groupAlias != null" >
+        group_alias = #{groupAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="isWrite != null" >
+        is_write = #{isWrite,jdbcType=TINYINT},
+      </if>
+      <if test="isInner != null" >
+        is_inner = #{isInner,jdbcType=TINYINT},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="refApiId != null" >
+        ref_api_id = #{refApiId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+  <!-- 分页查询 -->
+  <select id="queryWithPage" resultMap="BaseResultMap"
+          parameterType="com.caitu99.gateway.apiconfig.dto.req.OpenResourceReq">
+    select
+    <include refid="Base_Column_List" />
+    from t_resource t
+    <include refid="Base_Column_Cond" />
+    <trim prefix="ORDER BY ">
+      <if test="orderColumn != null and  orderColumn != ''">
+        ${orderColumn} ${orderDir}
+      </if>
+    </trim>
+  </select>
+
+  <sql id="Base_Column_Cond">
+    <trim prefix="WHERE" prefixOverrides="AND | OR">
+      <if test="groupAlias != null" >
+        AND t.alias = #{groupAlias}
+      </if>
+      <if test="level !=null">
+        AND t.level = #{level}
+      </if>
+      <if test="isWrite !=null">
+        AND t.is_write = #{isWrite}
+      </if>
+      <if test="isInner !=null">
+        AND t.is_inner = #{isInner}
+      </if>
+      <if test="createTimeBegin != null ">
+        <![CDATA[AND t.create_time >= #{createTimeBegin}]]>
+      </if>
+      <if test="createTimeEnd != null  ">
+        <![CDATA[AND t.create_time <= #{createTimeEnd}]]>
+      </if>
+    </trim>
+  </sql>
+</mapper>

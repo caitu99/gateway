@@ -1,0 +1,22 @@
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-top: -10px;
+  margin-left: 19px;
+}
+
+
+
+.dropdown-menu {
+    min-width: 100px;
+}
+
+#manualInfo {
+    margin-top: 90px;
+    margin-left: 1%;
+    height: 300px;
+}
+
+.examplePicture {
+    max-width: 800px;
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Gateway</title>
+
+    <!-- Bootstrap -->
+    <link href="/statics/css/bootstrap.css" rel="stylesheet" />
+    <link href="/statics/css/login.css" rel="stylesheet" />
+    <link href="/statics/css/font-awesome.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <!--<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script> -->
+    <!--[endif]-->
+</head>
+<body>
+<div class="form-signin">
+    <p class="form-signin-heading">
+        您正在授权
+        <a href="javascript:;">${client}</a>
+        获取有赞的
+        <a href="javascript:;">店铺</a> 资料
+    </p>
+
+    <div class="form-group">
+        <label class="control-label">有赞账号：</label>
+        <div class="">
+            ${account}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">选择店铺：</label>
+        <select id = "kdt_id" name="kdt_id" class="form-control">
+            #foreach ($t in $!teams)
+                <option value="$!t.id">$!t.teamName</option>
+            #end
+        </select>
+    </div>
+
+    <div class="form-group">
+        <div class=" ">
+            <button id = "auth" name = "auth" type="submit" class="btn btn-primary">授权</button>
+        </div>
+    </div>
+
+    <div class="form-group text-muted small">
+        <div>
+            将允许 <a href="javascript:;">${client}</a> 进行以下操作：
+        </div>
+        <div>
+            <ol style="margin-left: -20px;" >
+                <li>获取店铺的基本信息</li>
+                <li>调用店铺的API，包括：商品、类目、交易、物流、用户 等接口</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+<footer>
+    <hr>
+    <p class="text-muted text-center">© caitu99.com</p>
+</footer>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/statics/js/jquery.js"></script>
+<script src="/statics/js/bootstrap.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/statics/js/jquery.validate.min.js"></script>
+<script src="/statics/js/jquery.metadata.js"></script>
+<script src="/statics/js/team.js"></script>
+</body>
+
+</html>

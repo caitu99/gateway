@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Gateway</title>
+
+    <!-- Bootstrap -->
+    <link href="/statics/css/bootstrap.css" rel="stylesheet" />
+    <link href="/statics/css/open.css" rel="stylesheet" />
+    <link href="/statics/css/font-awesome.css" rel="stylesheet" />
+    <link href="/statics/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <!--<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script> -->
+    <!--[endif]-->
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img alt="Brand" src="/statics/imag/logo1.jpg">
+            </a>
+
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active1"><a href="#"><h3 style="margin:0 0 0 0;">Gateway</h3> <span class="sr-only">(current)</span></a></li>
+
+            </ul>
+            <ul class="nav nav-pills" style="margin:9px 0 0 0;">
+                <li role="presentation" class="active"><a href="#" class="titles">JAVA</a></li>
+                <li role="presentation"><a href="#" class="titles">PHP</a></li>
+                <li role="presentation"><a href="#" class="titles">Config</a></li>
+                <li role="presentation"><a href="#" class="titles">Monitor</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<form class="form-inline" id="JAVA" style="margin: 10px 0 0 20px;">
+
+    <div class="alert alert-info" role="alert">第一步： <strong>外部开放接口参数定义</strong></div>
+
+    <div class="form-group" >
+        <label for="MethodName1">Method</label>
+        <input type="text" class="form-control" id="methodName_1" placeholder="请输入方法名">
+    </div>
+
+    <div class="form-group" style="margin-left:10px;">
+        <label for="urlName">Url</label>
+        <input type="text" class="form-control" id="urlName" placeholder="请输入url">
+    </div>
+
+    <div class="form-group" style="margin-left:10px;">
+        <label for="inlineRadio1" style="display:none;">是否是java</label>
+        <input style="display:none;" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+        <button type="button" class="btn btn-primary" id="queryMethod" style="margin-left:10px;">查询</button>
+    </div>
+
+    <div style="margin-top:20px;max-width:600px;">
+        <table id="methodTable" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>名称</th>
+                <th>类型</th>
+                <th>是否必填</th>
+                <th>是否结构</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="tableBodyMethod">
+                <tr><td colspan="5" class="text-center">没有数据</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-group" style="margin:0 0 10px 450px;">
+        <button type="button" class="btn btn-primary insertRowMethod1" style="margin-left:10px;" data-toggle="modal" data-target="#myModal">新增行</button>
+        <button type="button" class="btn btn-primary" style="margin-left:10px;" id="updateMethods">更新</button>
+    </div>
+
+    <div class="alert alert-info" role="alert">第二步： <strong>方法定义</strong></div>
+
+    <div class="form-group" >
+        <label for="MethodName2">Method</label>
+        <input type="text" class="form-control" id="methodName2" placeholder="请输入方法名">
+    </div>
+
+
+    <div class="form-group" style="margin-left:10px;">
+        <button type="button" class="btn btn-primary" id="queryMethod2" style="margin-left:10px;">查询</button>
+    </div>
+
+
+    <div style="margin-top:20px;max-width:600px;">
+        <table id="methodTable2" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>参数名称</th>
+                <th>参数类型</th>
+                <th>是否结构</th>
+                <th>序号</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="6" class="text-center">没有数据</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-group" style="margin:0 0 10px 450px;">
+        <button type="button" class="btn btn-primary insertRowMethod2" style="margin-left:10px;" data-toggle="modal" data-target="#myModalStructure">新增行</button>
+        <button type="button" class="btn btn-primary" style="margin-left:10px;" id="updateMethods2">更新</button>
+    </div>
+
+    <div class="alert alert-info" role="alert">第三步： 结构定义</div>
+
+    <div class="form-group" >
+        <label for="methodName3">父类型</label>
+        <input type="text" class="form-control" id="methodName3" placeholder="请输入类型">
+    </div>
+
+
+    <div class="form-group" style="margin-left:10px;">
+        <button type="button" class="btn btn-primary" id="queryType" style="margin-left:10px;">查询</button>
+    </div>
+
+
+    <div style="margin-top:20px;max-width:600px;">
+        <table id="tableType" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>父类型</th>
+                <th>参数名称</th>
+                <th>参数类型</th>
+                <th>是否结构</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="5" class="text-center">没有数据</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-group" style="margin:0 0 10px 450px;">
+        <button type="button" class="btn btn-primary insertRowType" style="margin-left:10px;" data-toggle="modal" data-target="#myModalType">新增行</button>
+        <button type="button" class="btn btn-primary" style="margin-left:10px;" id="updateType">更新</button>
+    </div>
+
+    <div class="alert alert-info" role="alert">第四步： 内外参数映射</div>
+    <div class="form-group" >
+        <label for="methodName4">Method</label>
+        <input type="text" class="form-control" id="methodName4" placeholder="请输入方法名">
+    </div>
+
+
+    <div class="form-group" style="margin-left:10px;">
+        <button type="button" class="btn btn-primary" id="queryMethod4" style="margin-left:10px;">查询</button>
+    </div>
+
+
+    <div style="margin-top:20px;max-width:600px;">
+        <table id="tableMethod4" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>外参数</th>
+                <th>内参数</th>
+                <th>内参数类型</th>
+                <th>对应方法定义的参数名</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="5" class="text-center">没有数据</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group" style="margin:0 0 10px 450px;">
+        <button type="button" class="btn btn-primary insertRowMethod4" style="margin-left:10px;" data-toggle="modal" data-target="#myModalOuter">新增行</button>
+        <button type="button" class="btn btn-primary" style="margin-left:10px;" id="updateMethods4">更新</button>
+    </div>
+
+</form>
+
+<form class="form-inline" id="Config" style="margin: 10px 0 100px 20px;display:none;">
+    <div class="form-group" >
+        <label for="configMethod">Method</label>
+        <input type="text" class="form-control" id="configMethod" placeholder="请输入方法名">
+    </div>
+
+    <div class="form-group" style="margin-left:10px;">
+        <label for="configUrl">Url</label>
+        <input type="text" class="form-control" id="configUrl" placeholder="请输入url">
+    </div>
+
+    <div class="form-group" style="margin-left:10px;">
+        <label for="version">Version</label>
+        <input type="text" class="form-control" id="version" placeholder="version" style="max-width:100px;">
+    </div>
+
+    <div class="form-group" style="margin-left:10px;">
+        <button type="button" class="btn btn-primary" id="configQuery" style="margin-left:10px;">查询</button>
+    </div>
+
+    <div style="margin-top:20px;max-width:690px;">
+        <table id="methodTable5" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>log_flag</th>
+                <th>freg_flag</th>
+                <th>freq_limit</th>
+                <th>inner_outer_flag</th>
+                <th>service_type</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="tableBodyMethod5">
+            <tr><td colspan="6" class="text-center">没有数据</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-group" style="margin:0 0 10px 545px;">
+        <button type="button" class="btn btn-primary insertRowMethod5" style="margin-left:10px;" data-toggle="modal" data-target="#configureModal">新增行</button>
+        <button type="button" class="btn btn-primary" style="margin-left:10px;" id="updateMethods5">更新</button>
+    </div>
+</form>
+
+<div class="list-group Monitor" style="margin:10px 0 0 20px;max-width:300px;display:none">
+    <a href="monitor?data=1" class="list-group-item"><p class="text-primary">account.user.login</p></a>
+    <a href="#" class="list-group-item"><p class="text-primary">account.user.logout</p></a>
+    <a href="#" class="list-group-item"><p class="text-primary">trade.buyer.buy</p></a>
+    <a href="#" class="list-group-item"><p class="text-primary">trade.buyer.pay</p></a>
+    <a href="#" class="list-group-item"><p class="text-primary">trade.seller.sell</p></a>
+</div>
+
+
+
+<!-- 第一步 Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增一行</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="methodForm">
+                    <div class="form-group">
+                        <label for="methodName1" class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required methodName1" name="methodName1" id="methodName1" placeholder="名称" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="type1" class="col-sm-2 control-label">类型</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="type1" id="type1" placeholder="类型" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isneed1" class="col-sm-2 control-label">是否必填</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="isneed1" id="isneed1" style="max-width:160px;">
+                                <option value="1" selected>是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isStructure1" class="col-sm-2 control-label">是否结构</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="isStructure1" id="isStructure1" style="max-width:160px;">
+                                <option value="1" >是</option>
+                                <option value="0" selected>否</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="saveRow">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 第二步 Modal -->
+<div class="modal fade" id="myModalStructure" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">新增一行</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="methodForm2">
+##                    <div class="form-group">
+##                        <label for="method2" class="col-sm-2 control-label"></label>
+##                        <div class="col-sm-10">
+##                            <input type="text" class="form-control required" name="method2" id="method2" placeholder="名称" style="max-width:160px;" />
+##                        </div>
+##                    </div>
+                    <div class="form-group">
+                        <label for="paramname" class="col-sm-2 control-label">参数名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required paramname" name="paramname" id="paramname" placeholder="名称" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paramtype" class="col-sm-2 control-label">参数类型</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="paramtype" id="paramtype" placeholder="类型" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isStructure" class="col-sm-2 control-label">是否结构</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="isStructure" id="isStructure" style="max-width:160px;">
+                                <option value="1" selected>是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sequence" class="col-sm-2 control-label">序号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="sequence" id="sequence" placeholder="类型" style="max-width:160px;" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="saveRowStructure">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 第三步 Modal -->
+<div class="modal fade" id="myModalType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel3">新增一行</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="methodForm3">
+                    <div class="form-group">
+                        <label for="parParamtype" class="col-sm-2 control-label">父类型</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="parParamtype" id="parParamtype" placeholder="父类型" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paramname3" class="col-sm-2 control-label">参数名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="paramname3" id="paramname3" placeholder="父类型名称" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paramtype3" class="col-sm-2 control-label">参数类型</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="paramtype3" id="paramtype3" placeholder="子类型" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isStructure3" class="col-sm-2 control-label">是否结构</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="isStructure3" id="isStructure3" style="max-width:160px;">
+                                <option value="1" selected>是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="saveRowType">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 第四步 Modal -->
+<div class="modal fade" id="myModalOuter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel4">新增一行</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="methodForm4">
+                    <div class="form-group">
+                        <label for="outer_param" class="col-sm-2 control-label">外参数</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="outer_param" id="outer_param" placeholder="外参数" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inner_param" class="col-sm-2 control-label">内参数</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="inner_param" id="inner_param" placeholder="内参数" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paramtype4" class="col-sm-2 control-label">内参数类型</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="paramtype4" id="paramtype4" placeholder="内参数类型" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ref" class="col-sm-2 control-label">对应方法定义的参数名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="ref" id="ref" placeholder="方法签名" style="max-width:160px;" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="saveRowOuter">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--  deleted Modal -->
+<div class="modal fade" id="myDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myDeleteLabel">删除当前行</h4>
+            </div>
+            <div class="modal-body">
+                <span>确定要删除当前行么？</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureDelete">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- configure 页面新增行 -->
+<div class="modal fade" id="configureModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel5" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel5">新增一行</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="methodForm5">
+                    <div class="form-group">
+                        <label for="isLog" class="col-sm-2 control-label">是否日志</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="isLog" id="isLog" placeholder="是否日志" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isFreq" class="col-sm-2 control-label">是否频控</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="isFreq" id="isFreq" placeholder="是否频控" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="freqLimit" class="col-sm-2 control-label">频控限制</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="freqLimit" id="freqLimit" placeholder="频控限制" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="innerOuterFlag" class="col-sm-2 control-label">是否内外</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="innerOuterFlag" id="innerOuterFlag" placeholder="是否内外" style="max-width:160px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceType" class="col-sm-2 control-label">服务类型</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control required" name="serviceType" id="serviceType" placeholder="服务类型" style="max-width:160px;" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="saveConfig">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 遮罩 Modal -->
+<div class="modal fade" id="myHideModal" tabindex="-1" role="dialog" aria-labelledby="myHideLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width:400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myHideLabel">更新数据</h4>
+            </div>
+            <div class="modal-body text-center">
+                <p><i class="icon-spinner icon-spin icon-2x updatingIcon"></i><span id="updateStatus">正在更新</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="currentRow" value="" />
+<input type="hidden" id="deleteRow" value="" />
+<input type="hidden" id="step" value="" />
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/statics/js/jquery.js"></script>
+<script src="/statics/js/bootstrap.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/statics/js/jquery.validate.min.js"></script>
+<script src="/statics/js/jquery.metadata.js"></script>
+<script src="/statics/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/statics/js/locales/bootstrap-datetimepicker.fr.js"></script>
+<script src="/statics/js/highcharts.js"></script>
+<script src="/statics/js/open.js"></script>
+<footer>
+    <hr>
+    <p class="text-muted text-center">© caitu99.com</p>
+</footer>
+</body>
+</html>
+

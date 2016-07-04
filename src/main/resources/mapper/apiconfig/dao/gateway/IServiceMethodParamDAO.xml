@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.apiconfig.dao.gateway.IServiceMethodParamDAO">
+    <resultMap id="BaseResultMap" type="com.caitu99.gateway.apiconfig.model.CarmenServiceMethodParam">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="service_method_id" property="serviceMethodId" jdbcType="BIGINT"/>
+        <result column="param_name" property="paramName" jdbcType="VARCHAR"/>
+        <result column="param_type" property="paramType" jdbcType="VARCHAR"/>
+        <result column="sequence" property="sequence" jdbcType="INTEGER"/>
+        <result column="is_structure" property="isStructure" jdbcType="TINYINT"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="is_delete" property="isDelete" jdbcType="CHAR"/>
+        <result column="env" property="env" jdbcType="TINYINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, service_method_id, param_name, param_type, sequence, is_structure, creator, create_time, 
+    modifier, modify_time, is_delete, env
+  </sql>
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_service_method_param
+        where id = #{id,jdbcType=BIGINT} AND is_delete='n'
+    </select>
+
+    <select id="getByServiceMethodId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_service_method_param
+        where service_method_id= #{serviceMethodId,jdbcType=BIGINT} and env=#{env,jdbcType=TINYINT}
+        and is_delete='n'
+    </select>
+
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+    UPDATE t_service_method_param SET is_delete='y'
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <delete id="physicalDelete" parameterType="java.lang.Long">
+        delete from t_service_method_param
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+
+    <insert id="batchSave" parameterType="java.util.List">
+        <if test="list.size()>0">
+        insert into t_service_method_param
+        (id, service_method_id, param_name, param_type, sequence, is_structure, creator, create_time,
+        modifier, modify_time, is_delete, env) values
+        <foreach collection="list" item="item"  separator=",">
+            ( #{item.id},
+            #{item.serviceMethodId},
+            #{item.paramName},
+            #{item.paramType},
+            #{item.sequence},
+            #{item.isStructure},
+            #{item.creator},
+            #{item.createTime},
+            #{item.modifier},
+            #{item.modifyTime},
+            #{item.isDelete},
+            #{item.env})
+        </foreach>
+        </if>
+        <if test="list.size()==0">
+            select 1
+        </if>
+    </insert>
+    <insert id="save" parameterType="com.caitu99.gateway.apiconfig.model.CarmenServiceMethodParam"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_service_method_param
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="serviceMethodId != null">
+                service_method_id,
+            </if>
+            <if test="paramName != null">
+                param_name,
+            </if>
+            <if test="paramType != null">
+                param_type,
+            </if>
+            <if test="sequence != null">
+                sequence,
+            </if>
+            <if test="isStructure != null">
+                is_structure,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifier != null">
+                modifier,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="env != null">
+                env,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="serviceMethodId != null">
+                #{serviceMethodId,jdbcType=BIGINT},
+            </if>
+            <if test="paramName != null">
+                #{paramName,jdbcType=VARCHAR},
+            </if>
+            <if test="paramType != null">
+                #{paramType,jdbcType=VARCHAR},
+            </if>
+            <if test="sequence != null">
+                #{sequence,jdbcType=INTEGER},
+            </if>
+            <if test="isStructure != null">
+                #{isStructure,jdbcType=TINYINT},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=CHAR},
+            </if>
+            <if test="env != null">
+                #{env,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.caitu99.gateway.apiconfig.model.CarmenServiceMethodParam">
+        update t_service_method_param
+        <set>
+            <if test="serviceMethodId != null">
+                service_method_id = #{serviceMethodId,jdbcType=BIGINT},
+            </if>
+            <if test="paramName != null">
+                param_name = #{paramName,jdbcType=VARCHAR},
+            </if>
+            <if test="paramType != null">
+                param_type = #{paramType,jdbcType=VARCHAR},
+            </if>
+            <if test="sequence != null">
+                sequence = #{sequence,jdbcType=INTEGER},
+            </if>
+            <if test="isStructure != null">
+                is_structure = #{isStructure,jdbcType=TINYINT},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=CHAR},
+            </if>
+            <if test="env != null">
+                env = #{env,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caitu99.gateway.frequency.dao.gateway.IFreqConfigDAO">
+  <resultMap id="BaseResultMap" type="com.caitu99.gateway.frequency.model.CarmenFreqConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="value" jdbcType="INTEGER" property="value" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="api_ref" jdbcType="BIGINT" property="apiRef" />
+    <result column="client_id" jdbcType="BIGINT" property="clientId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, value, type, api_ref, client_id
+  </sql>
+  <select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_freq_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="getValueByCondition"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_freq_config
+    where type = #{type,jdbcType=INTEGER} AND api_ref=#{apiRef,jdbcType=BIGINT} AND client_id=#{clientId,jdbcType=BIGINT}
+  </select>
+
+  <select id="getValueByApiAndType"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_freq_config
+    where type = #{type,jdbcType=INTEGER} AND api_ref=#{apiRef,jdbcType=BIGINT}
+  </select>
+  <select id="getListValueByCondition"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_freq_config
+    where api_ref=#{apiRef,jdbcType=BIGINT} AND client_id=#{clientId,jdbcType=BIGINT}
+  </select>
+  <select id="getListValueByApi"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_freq_config
+    where api_ref=#{apiRef,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.Long">
+    delete from t_freq_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="save" parameterType="com.caitu99.gateway.frequency.model.CarmenFreqConfig" useGeneratedKeys="true" keyProperty="id">
+    insert into t_freq_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="apiRef != null">
+        api_ref,
+      </if>
+      <if test="clientId != null">
+        client_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="apiRef != null">
+        #{apiRef,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.caitu99.gateway.frequency.model.CarmenFreqConfig">
+    update t_freq_config
+    <set>
+      <if test="value != null">
+        value = #{value,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="apiRef != null">
+        api_ref = #{apiRef,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null">
+        client_id = #{clientId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

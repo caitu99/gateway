@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.oauth.dao.user.UserThirdInfoMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.gateway.oauth.model.UserThirdInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="weixin_sex" property="weixinSex" jdbcType="VARCHAR"/>
+        <result column="weixin_nickname" property="weixinNickname"
+                jdbcType="VARCHAR"/>
+        <result column="weixin_unionid" property="weixinUnionid"
+                jdbcType="VARCHAR"/>
+        <result column="weixin_province" property="weixinProvince"
+                jdbcType="VARCHAR"/>
+        <result column="weixin_openid" property="weixinOpenid"
+                jdbcType="VARCHAR"/>
+        <result column="weixin_language" property="weixinLanguage"
+                jdbcType="VARCHAR"/>
+        <result column="weixin_imgurl" property="weixinImgurl"
+                jdbcType="VARCHAR"/>
+        <result column="weixin_country" property="weixinCountry"
+                jdbcType="VARCHAR"/>
+        <result column="weixin_city" property="weixinCity" jdbcType="VARCHAR"/>
+        <result column="qq_is_yellow_year_vip" property="qqIsYellowYearVip"
+                jdbcType="INTEGER"/>
+        <result column="qq_vip" property="qqVip" jdbcType="INTEGER"/>
+        <result column="qq_level" property="qqLevel" jdbcType="INTEGER"/>
+        <result column="qq_province" property="qqProvince" jdbcType="VARCHAR"/>
+        <result column="qq_yellow_vip_level" property="qqYellowVipLevel"
+                jdbcType="INTEGER"/>
+        <result column="qq_is_yellow_vip" property="qqIsYellowVip"
+                jdbcType="INTEGER"/>
+        <result column="qq_gender" property="qqGender" jdbcType="VARCHAR"/>
+        <result column="qq_screen_name" property="qqScreenName"
+                jdbcType="VARCHAR"/>
+        <result column="qq_msg" property="qqMsg" jdbcType="VARCHAR"/>
+        <result column="qq_profile_image_url" property="qqProfileImageUrl"
+                jdbcType="VARCHAR"/>
+        <result column="qq_city" property="qqCity" jdbcType="VARCHAR"/>
+        <result column="qq_uid" property="qqUid" jdbcType="VARCHAR"/>
+        <result column="weibo_uid" property="weiboUid" jdbcType="VARCHAR"/>
+        <result column="weibo_favourites_count" property="weiboFavouritesCount"
+                jdbcType="INTEGER"/>
+        <result column="weibo_location" property="weiboLocation"
+                jdbcType="VARCHAR"/>
+        <result column="weibo_description" property="weiboDescription"
+                jdbcType="VARCHAR"/>
+        <result column="weibo_verified" property="weiboVerified"
+                jdbcType="INTEGER"/>
+        <result column="weibo_friends_count" property="weiboFriendsCount"
+                jdbcType="INTEGER"/>
+        <result column="weibo_gender" property="weiboGender" jdbcType="INTEGER"/>
+        <result column="weibo_screen_name" property="weiboScreenName"
+                jdbcType="VARCHAR"/>
+        <result column="weibo_statuses_count" property="weiboStatusesCount"
+                jdbcType="INTEGER"/>
+        <result column="weibo_followers_count" property="weiboFollowersCount"
+                jdbcType="INTEGER"/>
+        <result column="weibo_profile_image_url" property="weiboProfileImageUrl"
+                jdbcType="VARCHAR"/>
+        <result column="weibo_access_token" property="weiboAccessToken"
+                jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, user_id, weixin_sex, weixin_nickname, weixin_unionid,
+		weixin_province, weixin_openid,
+		weixin_language, weixin_imgurl,
+		weixin_country, weixin_city, qq_is_yellow_year_vip,
+		qq_vip, qq_level,
+		qq_province, qq_yellow_vip_level, qq_is_yellow_vip,
+		qq_gender,
+		qq_screen_name, qq_msg, qq_profile_image_url, qq_city, qq_uid,
+		weibo_uid,
+		weibo_favourites_count,
+		weibo_location, weibo_description,
+		weibo_verified, weibo_friends_count, weibo_gender,
+		weibo_screen_name,
+		weibo_statuses_count, weibo_followers_count,
+		weibo_profile_image_url,
+		weibo_access_token, gmt_create, gmt_modify
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_third_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_third_info
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_user_third_info
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert" parameterType="com.caitu99.gateway.oauth.model.UserThirdInfo">
+		insert into t_user_third_info
+		(id, user_id, weixin_sex,
+		weixin_nickname, weixin_unionid,
+		weixin_province,
+		weixin_openid, weixin_language, weixin_imgurl,
+		weixin_country, weixin_city, qq_is_yellow_year_vip,
+		qq_vip, qq_level,
+		qq_province,
+		qq_yellow_vip_level, qq_is_yellow_vip, qq_gender,
+		qq_screen_name, qq_msg, qq_profile_image_url,
+		qq_city, qq_uid,
+		weibo_uid,
+		weibo_favourites_count, weibo_location, weibo_description,
+		weibo_verified, weibo_friends_count, weibo_gender,
+		weibo_screen_name,
+		weibo_statuses_count, weibo_followers_count,
+		weibo_profile_image_url,
+		weibo_access_token,
+		gmt_create, gmt_modify)
+		values
+		(#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+		#{weixinSex,jdbcType=VARCHAR},
+		#{weixinNickname,jdbcType=VARCHAR},
+		#{weixinUnionid,jdbcType=VARCHAR},
+		#{weixinProvince,jdbcType=VARCHAR},
+		#{weixinOpenid,jdbcType=VARCHAR}, #{weixinLanguage,jdbcType=VARCHAR},
+		#{weixinImgurl,jdbcType=VARCHAR},
+		#{weixinCountry,jdbcType=VARCHAR},
+		#{weixinCity,jdbcType=VARCHAR},
+		#{qqIsYellowYearVip,jdbcType=INTEGER},
+		#{qqVip,jdbcType=INTEGER}, #{qqLevel,jdbcType=INTEGER},
+		#{qqProvince,jdbcType=VARCHAR},
+		#{qqYellowVipLevel,jdbcType=INTEGER},
+		#{qqIsYellowVip,jdbcType=INTEGER}, #{qqGender,jdbcType=VARCHAR},
+		#{qqScreenName,jdbcType=VARCHAR}, #{qqMsg,jdbcType=VARCHAR},
+		#{qqProfileImageUrl,jdbcType=VARCHAR},
+		#{qqCity,jdbcType=VARCHAR},
+		#{qqUid,jdbcType=VARCHAR}, #{weiboUid,jdbcType=VARCHAR},
+		#{weiboFavouritesCount,jdbcType=INTEGER},
+		#{weiboLocation,jdbcType=VARCHAR},
+		#{weiboDescription,jdbcType=VARCHAR},
+		#{weiboVerified,jdbcType=INTEGER},
+		#{weiboFriendsCount,jdbcType=INTEGER},
+		#{weiboGender,jdbcType=INTEGER},
+		#{weiboScreenName,jdbcType=VARCHAR},
+		#{weiboStatusesCount,jdbcType=INTEGER},
+		#{weiboFollowersCount,jdbcType=INTEGER},
+		#{weiboProfileImageUrl,jdbcType=VARCHAR},
+		#{weiboAccessToken,jdbcType=VARCHAR},
+		#{gmtCreate,jdbcType=TIMESTAMP},
+		#{gmtModify,jdbcType=TIMESTAMP})
+	</insert>
+    <insert id="insertSelective" parameterType="com.caitu99.gateway.oauth.model.UserThirdInfo">
+        insert into t_user_third_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="weixinSex != null">
+                weixin_sex,
+            </if>
+            <if test="weixinNickname != null">
+                weixin_nickname,
+            </if>
+            <if test="weixinUnionid != null">
+                weixin_unionid,
+            </if>
+            <if test="weixinProvince != null">
+                weixin_province,
+            </if>
+            <if test="weixinOpenid != null">
+                weixin_openid,
+            </if>
+            <if test="weixinLanguage != null">
+                weixin_language,
+            </if>
+            <if test="weixinImgurl != null">
+                weixin_imgurl,
+            </if>
+            <if test="weixinCountry != null">
+                weixin_country,
+            </if>
+            <if test="weixinCity != null">
+                weixin_city,
+            </if>
+            <if test="qqIsYellowYearVip != null">
+                qq_is_yellow_year_vip,
+            </if>
+            <if test="qqVip != null">
+                qq_vip,
+            </if>
+            <if test="qqLevel != null">
+                qq_level,
+            </if>
+            <if test="qqProvince != null">
+                qq_province,
+            </if>
+            <if test="qqYellowVipLevel != null">
+                qq_yellow_vip_level,
+            </if>
+            <if test="qqIsYellowVip != null">
+                qq_is_yellow_vip,
+            </if>
+            <if test="qqGender != null">
+                qq_gender,
+            </if>
+            <if test="qqScreenName != null">
+                qq_screen_name,
+            </if>
+            <if test="qqMsg != null">
+                qq_msg,
+            </if>
+            <if test="qqProfileImageUrl != null">
+                qq_profile_image_url,
+            </if>
+            <if test="qqCity != null">
+                qq_city,
+            </if>
+            <if test="qqUid != null">
+                qq_uid,
+            </if>
+            <if test="weiboUid != null">
+                weibo_uid,
+            </if>
+            <if test="weiboFavouritesCount != null">
+                weibo_favourites_count,
+            </if>
+            <if test="weiboLocation != null">
+                weibo_location,
+            </if>
+            <if test="weiboDescription != null">
+                weibo_description,
+            </if>
+            <if test="weiboVerified != null">
+                weibo_verified,
+            </if>
+            <if test="weiboFriendsCount != null">
+                weibo_friends_count,
+            </if>
+            <if test="weiboGender != null">
+                weibo_gender,
+            </if>
+            <if test="weiboScreenName != null">
+                weibo_screen_name,
+            </if>
+            <if test="weiboStatusesCount != null">
+                weibo_statuses_count,
+            </if>
+            <if test="weiboFollowersCount != null">
+                weibo_followers_count,
+            </if>
+            <if test="weiboProfileImageUrl != null">
+                weibo_profile_image_url,
+            </if>
+            <if test="weiboAccessToken != null">
+                weibo_access_token,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="weixinSex != null">
+                #{weixinSex,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinNickname != null">
+                #{weixinNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinUnionid != null">
+                #{weixinUnionid,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinProvince != null">
+                #{weixinProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinOpenid != null">
+                #{weixinOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinLanguage != null">
+                #{weixinLanguage,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinImgurl != null">
+                #{weixinImgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinCountry != null">
+                #{weixinCountry,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinCity != null">
+                #{weixinCity,jdbcType=VARCHAR},
+            </if>
+            <if test="qqIsYellowYearVip != null">
+                #{qqIsYellowYearVip,jdbcType=INTEGER},
+            </if>
+            <if test="qqVip != null">
+                #{qqVip,jdbcType=INTEGER},
+            </if>
+            <if test="qqLevel != null">
+                #{qqLevel,jdbcType=INTEGER},
+            </if>
+            <if test="qqProvince != null">
+                #{qqProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="qqYellowVipLevel != null">
+                #{qqYellowVipLevel,jdbcType=INTEGER},
+            </if>
+            <if test="qqIsYellowVip != null">
+                #{qqIsYellowVip,jdbcType=INTEGER},
+            </if>
+            <if test="qqGender != null">
+                #{qqGender,jdbcType=VARCHAR},
+            </if>
+            <if test="qqScreenName != null">
+                #{qqScreenName,jdbcType=VARCHAR},
+            </if>
+            <if test="qqMsg != null">
+                #{qqMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="qqProfileImageUrl != null">
+                #{qqProfileImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="qqCity != null">
+                #{qqCity,jdbcType=VARCHAR},
+            </if>
+            <if test="qqUid != null">
+                #{qqUid,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboUid != null">
+                #{weiboUid,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboFavouritesCount != null">
+                #{weiboFavouritesCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboLocation != null">
+                #{weiboLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboDescription != null">
+                #{weiboDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboVerified != null">
+                #{weiboVerified,jdbcType=INTEGER},
+            </if>
+            <if test="weiboFriendsCount != null">
+                #{weiboFriendsCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboGender != null">
+                #{weiboGender,jdbcType=INTEGER},
+            </if>
+            <if test="weiboScreenName != null">
+                #{weiboScreenName,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboStatusesCount != null">
+                #{weiboStatusesCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboFollowersCount != null">
+                #{weiboFollowersCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboProfileImageUrl != null">
+                #{weiboProfileImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboAccessToken != null">
+                #{weiboAccessToken,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.gateway.oauth.model.UserThirdInfo">
+        update t_user_third_info
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="weixinSex != null">
+                weixin_sex = #{weixinSex,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinNickname != null">
+                weixin_nickname = #{weixinNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinUnionid != null">
+                weixin_unionid = #{weixinUnionid,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinProvince != null">
+                weixin_province = #{weixinProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinOpenid != null">
+                weixin_openid = #{weixinOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinLanguage != null">
+                weixin_language = #{weixinLanguage,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinImgurl != null">
+                weixin_imgurl = #{weixinImgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinCountry != null">
+                weixin_country = #{weixinCountry,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinCity != null">
+                weixin_city = #{weixinCity,jdbcType=VARCHAR},
+            </if>
+            <if test="qqIsYellowYearVip != null">
+                qq_is_yellow_year_vip =
+                #{qqIsYellowYearVip,jdbcType=INTEGER},
+            </if>
+            <if test="qqVip != null">
+                qq_vip = #{qqVip,jdbcType=INTEGER},
+            </if>
+            <if test="qqLevel != null">
+                qq_level = #{qqLevel,jdbcType=INTEGER},
+            </if>
+            <if test="qqProvince != null">
+                qq_province = #{qqProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="qqYellowVipLevel != null">
+                qq_yellow_vip_level =
+                #{qqYellowVipLevel,jdbcType=INTEGER},
+            </if>
+            <if test="qqIsYellowVip != null">
+                qq_is_yellow_vip = #{qqIsYellowVip,jdbcType=INTEGER},
+            </if>
+            <if test="qqGender != null">
+                qq_gender = #{qqGender,jdbcType=VARCHAR},
+            </if>
+            <if test="qqScreenName != null">
+                qq_screen_name = #{qqScreenName,jdbcType=VARCHAR},
+            </if>
+            <if test="qqMsg != null">
+                qq_msg = #{qqMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="qqProfileImageUrl != null">
+                qq_profile_image_url =
+                #{qqProfileImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="qqCity != null">
+                qq_city = #{qqCity,jdbcType=VARCHAR},
+            </if>
+            <if test="qqUid != null">
+                qq_uid = #{qqUid,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboUid != null">
+                weibo_uid = #{weiboUid,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboFavouritesCount != null">
+                weibo_favourites_count =
+                #{weiboFavouritesCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboLocation != null">
+                weibo_location = #{weiboLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboDescription != null">
+                weibo_description = #{weiboDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboVerified != null">
+                weibo_verified = #{weiboVerified,jdbcType=INTEGER},
+            </if>
+            <if test="weiboFriendsCount != null">
+                weibo_friends_count =
+                #{weiboFriendsCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboGender != null">
+                weibo_gender = #{weiboGender,jdbcType=INTEGER},
+            </if>
+            <if test="weiboScreenName != null">
+                weibo_screen_name = #{weiboScreenName,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboStatusesCount != null">
+                weibo_statuses_count =
+                #{weiboStatusesCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboFollowersCount != null">
+                weibo_followers_count =
+                #{weiboFollowersCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboProfileImageUrl != null">
+                weibo_profile_image_url =
+                #{weiboProfileImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboAccessToken != null">
+                weibo_access_token =
+                #{weiboAccessToken,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.gateway.oauth.model.UserThirdInfo">
+		update
+		t_user_third_info
+		set user_id = #{userId,jdbcType=BIGINT},
+		weixin_sex =
+		#{weixinSex,jdbcType=VARCHAR},
+		weixin_nickname =
+		#{weixinNickname,jdbcType=VARCHAR},
+		weixin_unionid =
+		#{weixinUnionid,jdbcType=VARCHAR},
+		weixin_province =
+		#{weixinProvince,jdbcType=VARCHAR},
+		weixin_openid =
+		#{weixinOpenid,jdbcType=VARCHAR},
+		weixin_language =
+		#{weixinLanguage,jdbcType=VARCHAR},
+		weixin_imgurl =
+		#{weixinImgurl,jdbcType=VARCHAR},
+		weixin_country =
+		#{weixinCountry,jdbcType=VARCHAR},
+		weixin_city =
+		#{weixinCity,jdbcType=VARCHAR},
+		qq_is_yellow_year_vip =
+		#{qqIsYellowYearVip,jdbcType=INTEGER},
+		qq_vip =
+		#{qqVip,jdbcType=INTEGER},
+		qq_level = #{qqLevel,jdbcType=INTEGER},
+		qq_province = #{qqProvince,jdbcType=VARCHAR},
+		qq_yellow_vip_level =
+		#{qqYellowVipLevel,jdbcType=INTEGER},
+		qq_is_yellow_vip =
+		#{qqIsYellowVip,jdbcType=INTEGER},
+		qq_gender =
+		#{qqGender,jdbcType=VARCHAR},
+		qq_screen_name =
+		#{qqScreenName,jdbcType=VARCHAR},
+		qq_msg = #{qqMsg,jdbcType=VARCHAR},
+		qq_profile_image_url = #{qqProfileImageUrl,jdbcType=VARCHAR},
+		qq_city =
+		#{qqCity,jdbcType=VARCHAR},
+		qq_uid = #{qqUid,jdbcType=VARCHAR},
+		weibo_uid = #{weiboUid,jdbcType=VARCHAR},
+		weibo_favourites_count =
+		#{weiboFavouritesCount,jdbcType=INTEGER},
+		weibo_location =
+		#{weiboLocation,jdbcType=VARCHAR},
+		weibo_description =
+		#{weiboDescription,jdbcType=VARCHAR},
+		weibo_verified =
+		#{weiboVerified,jdbcType=INTEGER},
+		weibo_friends_count =
+		#{weiboFriendsCount,jdbcType=INTEGER},
+		weibo_gender =
+		#{weiboGender,jdbcType=INTEGER},
+		weibo_screen_name =
+		#{weiboScreenName,jdbcType=VARCHAR},
+		weibo_statuses_count =
+		#{weiboStatusesCount,jdbcType=INTEGER},
+		weibo_followers_count =
+		#{weiboFollowersCount,jdbcType=INTEGER},
+		weibo_profile_image_url =
+		#{weiboProfileImageUrl,jdbcType=VARCHAR},
+		weibo_access_token =
+		#{weiboAccessToken,jdbcType=VARCHAR},
+		gmt_create =
+		#{gmtCreate,jdbcType=TIMESTAMP},
+		gmt_modify =
+		#{gmtModify,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+    <update id="updateByuserid" parameterType="com.caitu99.gateway.oauth.model.UserThirdInfo">
+        update t_user_third_info
+        <set>
+            <if test="weixinSex != null">
+                weixin_sex = #{weixinSex,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinNickname != null">
+                weixin_nickname = #{weixinNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinUnionid != null">
+                weixin_unionid = #{weixinUnionid,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinProvince != null">
+                weixin_province = #{weixinProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinOpenid != null">
+                weixin_openid = #{weixinOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinLanguage != null">
+                weixin_language = #{weixinLanguage,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinImgurl != null">
+                weixin_imgurl = #{weixinImgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinCountry != null">
+                weixin_country = #{weixinCountry,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinCity != null">
+                weixin_city = #{weixinCity,jdbcType=VARCHAR},
+            </if>
+            <if test="qqIsYellowYearVip != null">
+                qq_is_yellow_year_vip =
+                #{qqIsYellowYearVip,jdbcType=INTEGER},
+            </if>
+            <if test="qqVip != null">
+                qq_vip = #{qqVip,jdbcType=INTEGER},
+            </if>
+            <if test="qqLevel != null">
+                qq_level = #{qqLevel,jdbcType=INTEGER},
+            </if>
+            <if test="qqProvince != null">
+                qq_province = #{qqProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="qqYellowVipLevel != null">
+                qq_yellow_vip_level =
+                #{qqYellowVipLevel,jdbcType=INTEGER},
+            </if>
+            <if test="qqIsYellowVip != null">
+                qq_is_yellow_vip = #{qqIsYellowVip,jdbcType=INTEGER},
+            </if>
+            <if test="qqGender != null">
+                qq_gender = #{qqGender,jdbcType=VARCHAR},
+            </if>
+            <if test="qqScreenName != null">
+                qq_screen_name = #{qqScreenName,jdbcType=VARCHAR},
+            </if>
+            <if test="qqMsg != null">
+                qq_msg = #{qqMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="qqProfileImageUrl != null">
+                qq_profile_image_url =
+                #{qqProfileImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="qqCity != null">
+                qq_city = #{qqCity,jdbcType=VARCHAR},
+            </if>
+            <if test="qqUid != null">
+                qq_uid = #{qqUid,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboUid != null">
+                weibo_uid = #{weiboUid,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboFavouritesCount != null">
+                weibo_favourites_count =
+                #{weiboFavouritesCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboLocation != null">
+                weibo_location = #{weiboLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboDescription != null">
+                weibo_description = #{weiboDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboVerified != null">
+                weibo_verified = #{weiboVerified,jdbcType=INTEGER},
+            </if>
+            <if test="weiboFriendsCount != null">
+                weibo_friends_count =
+                #{weiboFriendsCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboGender != null">
+                weibo_gender = #{weiboGender,jdbcType=INTEGER},
+            </if>
+            <if test="weiboScreenName != null">
+                weibo_screen_name = #{weiboScreenName,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboStatusesCount != null">
+                weibo_statuses_count =
+                #{weiboStatusesCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboFollowersCount != null">
+                weibo_followers_count =
+                #{weiboFollowersCount,jdbcType=INTEGER},
+            </if>
+            <if test="weiboProfileImageUrl != null">
+                weibo_profile_image_url =
+                #{weiboProfileImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboAccessToken != null">
+                weibo_access_token =
+                #{weiboAccessToken,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.apiconfig.dao.gateway.IParamMappingDAO">
+    <resultMap id="BaseResultMap" type="com.caitu99.gateway.apiconfig.model.CarmenParamMapping">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="field_name" property="fieldName" jdbcType="VARCHAR"/>
+        <result column="field_type" property="fieldType" jdbcType="VARCHAR"/>
+        <result column="service_method_id" property="serviceMethodId" jdbcType="BIGINT"/>
+        <result column="api_param_name" property="apiParamName" jdbcType="VARCHAR"/>
+        <result column="data_from" property="dataFrom" jdbcType="INTEGER"/>
+        <result column="api_namespace" property="apiNamespace" jdbcType="VARCHAR"/>
+        <result column="api_name" property="apiName" jdbcType="VARCHAR"/>
+        <result column="sequence" property="sequence" jdbcType="INTEGER"/>
+        <result column="version" property="version" jdbcType="VARCHAR"/>
+        <result column="method_param_ref" property="methodParamRef" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="CHAR"/>
+        <result column="env" property="env" jdbcType="TINYINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, field_name, field_type, service_method_id, api_param_name,data_from, api_namespace,
+    api_name,sequence,version, method_param_ref, create_time, creator, modify_time, modifier, is_delete,
+    env
+  </sql>
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_param_mapping
+        where id = #{id,jdbcType=BIGINT} AND is_delete='n'
+    </select>
+
+
+    <select id="getByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_param_mapping
+        where field_name = #{fieldName,jdbcType=VARCHAR} AND
+        field_type=#{fieldType,jdbcType=VARCHAR} AND service_method_id =
+        #{serviceMethodId,jdbcType=BIGINT} AND env=#{env,jdbcType=TINYINT} AND is_delete='n'
+    </select>
+
+    <select id="getRecordByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_param_mapping
+        where api_namespace = #{namespace,jdbcType=VARCHAR} and api_name= #{name,jdbcType=VARCHAR} and
+        version=#{version,jdbcType=VARCHAR} and env=#{env,jdbcType=TINYINT} and is_delete='n'
+    </select>
+
+
+    <select id="getByServiceMethodId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_param_mapping
+        where service_method_id =
+        #{serviceMethodId,jdbcType=BIGINT} AND env=#{env,jdbcType=TINYINT} AND is_delete='n'
+    </select>
+
+
+
+    <select id="getParamMappingFilter"
+            resultType="com.caitu99.gateway.apiconfig.model.CarmenParamMappingFilter">
+        select distinct service_method_id ,api_namespace,api_name,version from t_param_mapping
+        where env=#{env,jdbcType=TINYINT} and is_delete='n'
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+    UPDATE  t_param_mapping SET is_delete='y'
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <delete id="physicalDelete" parameterType="java.lang.Long">
+        delete from t_param_mapping
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="batchSave" parameterType="java.util.List">
+        <if test="list.size()>0">
+        insert into t_param_mapping
+        (id, field_name, field_type, service_method_id, api_param_name,data_from, api_namespace,
+        api_name,sequence,version, method_param_ref, create_time, creator, modify_time, modifier, is_delete,
+        env) values
+        <foreach collection="list" item="item"  separator=",">
+            ( #{item.id},
+            #{item.fieldName},
+            #{item.fieldType},
+            #{item.serviceMethodId},
+            #{item.apiParamName},
+            #{item.dataFrom},
+            #{item.apiNamespace},
+            #{item.apiName},
+            #{item.sequence},
+            #{item.version},
+            #{item.methodParamRef},
+            #{item.createTime},
+            #{item.creator},
+            #{item.modifyTime},
+            #{item.modifier},
+            #{item.isDelete},
+            #{item.env})
+        </foreach>
+        </if>
+        <if test="list.size()==0">
+            select 1
+        </if>
+    </insert>
+
+    <insert id="save" parameterType="com.caitu99.gateway.apiconfig.model.CarmenParamMapping"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_param_mapping
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="fieldName != null">
+                field_name,
+            </if>
+            <if test="fieldType != null">
+                field_type,
+            </if>
+            <if test="serviceMethodId != null">
+                service_method_id,
+            </if>
+            <if test="apiParamName != null">
+                api_param_name,
+            </if>
+
+            <if test="dataFrom !=null">
+                data_from,
+            </if>
+
+            <if test="apiNamespace != null">
+                api_namespace,
+            </if>
+            <if test="apiName != null">
+                api_name,
+            </if>
+            <if test="sequence != null">
+                sequence,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="methodParamRef != null">
+                method_param_ref,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="modifier != null">
+                modifier,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="env != null">
+                env,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="fieldName != null">
+                #{fieldName,jdbcType=VARCHAR},
+            </if>
+            <if test="fieldType != null">
+                #{fieldType,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceMethodId != null">
+                #{serviceMethodId,jdbcType=BIGINT},
+            </if>
+            <if test="apiParamName != null">
+                #{apiParamName,jdbcType=VARCHAR},
+            </if>
+            <if test="dataFrom !=null">
+                #{dataFrom,jdbcType=INTEGER},
+            </if>
+            <if test="apiNamespace != null">
+                #{apiNamespace,jdbcType=VARCHAR},
+            </if>
+            <if test="apiName != null">
+                #{apiName,jdbcType=VARCHAR},
+            </if>
+            <if test="sequence != null">
+                #{sequence,jdbcType=INTEGER},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="methodParamRef != null">
+                #{methodParamRef,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=CHAR},
+            </if>
+            <if test="env != null">
+                #{env,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.caitu99.gateway.apiconfig.model.CarmenParamMapping">
+        update t_param_mapping
+        <set>
+            <if test="fieldName != null">
+                field_name = #{fieldName,jdbcType=VARCHAR},
+            </if>
+            <if test="fieldType != null">
+                field_type = #{fieldType,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceMethodId != null">
+                service_method_id = #{serviceMethodId,jdbcType=BIGINT},
+            </if>
+            <if test="apiParamName != null">
+                api_param_name = #{apiParamName,jdbcType=VARCHAR},
+            </if>
+            <if test="dataFrom !=null">
+               data_from = #{dataFrom,jdbcType=INTEGER},
+            </if>
+            <if test="apiNamespace != null">
+                api_namespace = #{apiNamespace,jdbcType=VARCHAR},
+            </if>
+            <if test="apiName != null">
+                api_name = #{apiName,jdbcType=VARCHAR},
+            </if>
+            <if test="sequence != null">
+                sequence = #{sequence,jdbcType=INTEGER},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="methodParamRef != null">
+                method_param_ref = #{methodParamRef,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=CHAR},
+            </if>
+            <if test="env != null">
+                env = #{env,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

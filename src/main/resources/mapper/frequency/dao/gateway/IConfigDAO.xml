@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caitu99.gateway.frequency.dao.gateway.IConfigDAO">
+  <resultMap id="BaseResultMap" type="com.caitu99.gateway.frequency.model.CarmenConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="config_name" jdbcType="VARCHAR" property="configName" />
+    <result column="config_value" jdbcType="VARCHAR" property="configValue" />
+    <result column="config_des" jdbcType="VARCHAR" property="configDes" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, config_name, config_value, config_des
+  </sql>
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getByConfigName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_config
+    where config_name = #{configName,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="save" parameterType="com.caitu99.gateway.frequency.model.CarmenConfig" useGeneratedKeys="true" keyProperty="id">
+    insert into t_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="configName != null">
+        config_name,
+      </if>
+      <if test="configValue != null">
+        config_value,
+      </if>
+      <if test="configDes != null">
+        config_des,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="configName != null">
+        #{configName,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null">
+        #{configValue,jdbcType=VARCHAR},
+      </if>
+      <if test="configDes != null">
+        #{configDes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.caitu99.gateway.frequency.model.CarmenConfig">
+    update t_config
+    <set>
+      <if test="configName != null">
+        config_name = #{configName,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null">
+        config_value = #{configValue,jdbcType=VARCHAR},
+      </if>
+      <if test="configDes != null">
+        config_des = #{configDes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

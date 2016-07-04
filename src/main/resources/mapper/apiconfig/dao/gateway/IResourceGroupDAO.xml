@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.apiconfig.dao.gateway.IResourceGroupDAO" >
+  <resultMap id="BaseResultMap" type="com.caitu99.gateway.apiconfig.model.OpenResourceGroup" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="alias" property="alias" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="TINYINT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, alias, level, description, create_time, update_time
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_resource_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from t_resource_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="getGroupAlias" resultType="java.lang.String">
+    select DISTINCT alias  from t_resource_group
+  </select>
+
+
+  <select id="getAll" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from t_resource_group
+  </select>
+
+  <insert id="save" parameterType="com.caitu99.gateway.apiconfig.model.OpenResourceGroup" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_resource_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="alias != null" >
+        alias,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.caitu99.gateway.apiconfig.model.OpenResourceGroup" >
+    update t_resource_group
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- 分页查询 -->
+  <select id="queryWithPage" resultMap="BaseResultMap"
+          parameterType="com.caitu99.gateway.apiconfig.dto.req.OpenResourceGroupReq">
+    select
+    <include refid="Base_Column_List" />
+    from t_resource_group t
+    <include refid="Base_Column_Cond" />
+    <trim prefix="ORDER BY ">
+      <if test="orderColumn != null and  orderColumn != ''">
+        ${orderColumn} ${orderDir}
+      </if>
+    </trim>
+  </select>
+
+  <sql id="Base_Column_Cond">
+    <trim prefix="WHERE" prefixOverrides="AND | OR">
+      <if test="alias != null" >
+        AND t.alias = #{alias}
+      </if>
+      <if test="level !=null">
+        AND t.LEVEL = #{level}
+      </if>
+      <if test="createTimeBegin != null ">
+        <![CDATA[AND t.create_time >= #{createTimeBegin}]]>
+      </if>
+      <if test="createTimeEnd != null  ">
+        <![CDATA[AND t.create_time <= #{createTimeEnd}]]>
+      </if>
+    </trim>
+  </sql>
+
+</mapper>

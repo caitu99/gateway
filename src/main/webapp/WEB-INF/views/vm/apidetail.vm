@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Gateway</title>
+
+    <!-- Bootstrap -->
+    <link href="/statics/css/bootstrap.css" rel="stylesheet" />
+    <link href="/statics/css/font-awesome.css" rel="stylesheet" />
+    <link href="/statics/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="/statics/css/apidetail.css" rel="stylesheet" />
+
+    <!--<link href="favicon.ico" mce_href="favicon.ico" rel="bookmark" type="image/x-icon" />-->
+    <!--<link href="favicon.ico" mce_href="favicon.ico" rel="icon" type="image/x-icon" />-->
+    <link href="/statics/images/favicon.ico"  rel="Shortcut Icon"/>
+
+
+</head>
+<body>
+
+<!-- 导航条 -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img alt="Brand" class="logo"  src="/statics/imag/logo2.jpg">
+            </a>
+
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active1"><a href="#"><h3 style="margin:0 0 0 0;">Gateway</h3> <span class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul id="myTitle" class="nav nav-pills" style="margin:9px 0 0 0;">
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Home</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Config</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Release</a></li>
+                <!--<li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Monitor</a></li>-->
+                <li role="presentation" class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-haspopup="true" aria-expanded="false"><span id="consoleText">ApiDetail</span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" >
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console ">Monitor</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Manual</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Cache</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Instance</a></li>
+                        #if($!results.get("isAdmin"))
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">LogView</a></li>
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">Users</a></li>
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">RecoverApi</a></li>
+                        #end
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin:-50px 50px 0 0;"><p class="navbar-text">Welcome <span class="glyphicon glyphicon-user"></span> $!results.get("data")</p></li>
+            </ul>
+        </div>
+cd /
+    </div>
+</nav>
+
+
+<div id="manualInfo" style="min-height:400px;margin-top: 90px;">
+    <h1 style="text-align:center;margin-bottom:30px;">API详情</h1>
+    <div style="margin-left:10px;">
+        <div class="page-header cut">
+            <h3><small>1. API说明</small></h3>
+        </div>
+        <p style="word-wrap: break-word;word-break: normal;">$!results.get("carmenApi").namespace/$!results.get("carmenApi").name/$!results.get("carmenApi").version <br/> -- $!results.get("carmenApi").apiDesc</p>
+        <div class="page-header cut">
+            <h3><small>2. 应用场景</small></h3>
+            <p style="word-wrap: break-word;word-break: normal;">$!results.get("carmenApi").apiScenarios </p>
+        </div>
+        <div class="page-header cut">
+            <h3><small>3. 输入参数</small></h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>参数类型</th>
+                    <th>参数说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                #foreach ($!apiParam in $!results.get("carmenApiParam"))
+                    <tr>
+                        <td>$!apiParam.paramName</td>
+                        <td>$!apiParam.paramType</td>
+                        <td>$!apiParam.describle</td>
+                    </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+        <div class="page-header cut">
+            <h3><small>4. 返回结果</small></h3>
+        </div>
+        <div class="page-header cut">
+            <h3><small>5. 示例</small></h3>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="env" value="$!results.get('env')">
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/statics/js/jquery.js"></script>
+<script src="/statics/js/bootstrap.js"></script>
+<script src="/statics/js/jquery.validate.min.js"></script>
+<script src="/statics/js/jquery.metadata.js"></script>
+<script src="/statics/js/jquery.dataTables.min.js"></script>
+<script src="/statics/js/apidetail.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+
+<footer style="margin-top: -20px;">
+    <hr>
+    <p class="text-muted text-center">© caitu99.com</p>
+</footer>
+</body>
+</html>

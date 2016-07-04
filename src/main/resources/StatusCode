@@ -1,0 +1,42 @@
+Code    Message                         Data
+-1      (internal and unknown error)
+0       (success)
+1-1000  (used for internal or future)
+5001    namespace or method is null
+5002    service unavailable
+5003    wrong service type
+5004    execution error
+5005    incorrect format
+5007    parameter cannot be empty
+5008    parameter type error
+5009    no ApiMethod mapping
+5010    no parameter mapping
+5011    parameter name is not configured
+5012    error mapping
+5014    error result format
+5015    request is cancelled
+5016    async http client exception
+5017    client is null
+5018    namespace method is null
+5101    invalid client
+5102    invalid client no
+5103    invalid time stamp
+5104    invalid sign
+5105    invalid sign when validating
+5106    invalid api method
+5106    no resource
+5108    invalid client info
+5109    no token
+5110    expired token
+5111    invalid token
+5112    invalid resource
+5113    invalid frequency
+5114    no privilege
+5120    invalid code
+5121    invalid request
+5122    invalid type
+5123    验证码过期
+5124    验证码错误
+5125    default cannot be parameter
+5130    非企业账号
+

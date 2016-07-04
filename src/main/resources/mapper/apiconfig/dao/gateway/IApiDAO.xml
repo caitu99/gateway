@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.apiconfig.dao.gateway.IApiDAO">
+    <resultMap id="BaseResultMap" type="com.caitu99.gateway.apiconfig.model.CarmenApi">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="namespace" property="namespace" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="VARCHAR"/>
+        <result column="app_name" property="appName" jdbcType="VARCHAR"/>
+        <result column="api_group" property="apiGroup" jdbcType="VARCHAR"/>
+        <result column="api_desc" property="apiDesc" jdbcType="VARCHAR"/>
+        <result column="api_scenarios" property="apiScenarios" jdbcType="VARCHAR"/>
+        <result column="address_url" property="addressUrl" jdbcType="VARCHAR"/>
+        <result column="enable_log" property="enableLog" jdbcType="TINYINT"/>
+        <result column="enable_freq" property="enableFreq" jdbcType="TINYINT"/>
+        <result column="enable_inner_outer" property="enableInnerOuter" jdbcType="TINYINT"/>
+        <result column="valid_flag" property="validFlag" jdbcType="TINYINT"/>
+        <result column="test_flag" property="testFlag" jdbcType="TINYINT"/>
+        <result column="migrate_flag" property="migrateFlag" jdbcType="TINYINT"/>
+        <result column="api_type" property="apiType" jdbcType="TINYINT"/>
+        <result column="session_flag" property="sessionFlag" jdbcType="TINYINT"/>
+        <result column="request_type" property="requestType" jdbcType="CHAR"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="is_delete" property="isDelete" jdbcType="CHAR"/>
+        <result column="env" property="env" jdbcType="TINYINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, namespace, name, version, app_name,api_group,api_desc,api_scenarios, address_url, enable_log, enable_freq, enable_inner_outer,valid_flag,test_flag,migrate_flag,
+    api_type, request_type,session_flag, creator, create_time, modifier, modify_time, is_delete, env
+   </sql>
+
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_api
+        where id = #{id,jdbcType=BIGINT} and is_delete='n'
+    </select>
+
+
+    <select id="getRecordByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_api
+        where namespace = #{namespace,jdbcType=VARCHAR} and name= #{name,jdbcType=VARCHAR} and
+        version=#{version,jdbcType=VARCHAR} and env=#{env,jdbcType=TINYINT} and is_delete='n'
+    </select>
+
+    <select id="getRecordByEnv" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_api
+        where env=#{env,jdbcType=TINYINT} and is_delete='n'
+    </select>
+
+    <select id="getRecordByEnvGroup" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_api
+        where env=#{env,jdbcType=TINYINT} and api_group=#{apiGroup,jdbcType=VARCHAR} and is_delete='n'
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+    update t_api set is_delete='y'
+    where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="physicalDelete" parameterType="java.lang.Long">
+        delete from t_api
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="getAllDeletedRecord" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_api
+        where is_delete='y'
+    </select>
+
+    <insert id="save" parameterType="com.caitu99.gateway.apiconfig.model.CarmenApi"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_api
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="namespace != null">
+                namespace,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="appName != null">
+                app_name,
+            </if>
+            <if test="apiGroup != null">
+            api_group,
+            </if>
+            <if test="apiDesc != null">
+                api_desc,
+            </if>
+            <if test="apiScenarios != null">
+                api_scenarios,
+            </if>
+            <if test="addressUrl != null">
+                address_url,
+            </if>
+            <if test="enableLog != null">
+                enable_log,
+            </if>
+            <if test="enableFreq != null">
+                enable_freq,
+            </if>
+            <if test="enableInnerOuter != null">
+                enable_inner_outer,
+            </if>
+
+            <if test="validFlag != null">
+                valid_flag,
+            </if>
+
+            <if test="testFlag != null">
+                test_flag,
+            </if>
+
+            <if test="migrateFlag != null">
+                migrate_flag,
+            </if>
+
+            <if test="apiType != null">
+                api_type,
+            </if>
+
+            <if test="sessionFlag != null">
+                session_flag,
+            </if>
+
+            <if test="requestType != null">
+                request_type,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifier != null">
+                modifier,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="env != null">
+                env,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="namespace != null">
+                #{namespace,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="appName != null">
+                #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="apiGroup != null">
+                #{apiGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="apiDesc != null">
+                #{apiDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="apiScenarios != null">
+                #{apiScenarios,jdbcType=VARCHAR},
+            </if>
+            <if test="addressUrl != null">
+                #{addressUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="enableLog != null">
+                #{enableLog,jdbcType=TINYINT},
+            </if>
+            <if test="enableFreq != null">
+                #{enableFreq,jdbcType=TINYINT},
+            </if>
+            <if test="enableInnerOuter != null">
+                #{enableInnerOuter,jdbcType=TINYINT},
+            </if>
+
+            <if test="validFlag != null">
+                #{validFlag,jdbcType=TINYINT},
+            </if>
+
+            <if test="testFlag != null">
+                #{testFlag,jdbcType=TINYINT},
+            </if>
+
+            <if test="migrateFlag != null">
+                #{migrateFlag,jdbcType=TINYINT},
+            </if>
+
+            <if test="apiType != null">
+                #{apiType,jdbcType=TINYINT},
+            </if>
+
+            <if test="sessionFlag != null">
+                #{sessionFlag,jdbcType=TINYINT},
+            </if>
+
+            <if test="requestType != null">
+                #{requestType,jdbcType=CHAR},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=CHAR},
+            </if>
+            <if test="env != null">
+                #{env,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.caitu99.gateway.apiconfig.model.CarmenApi">
+        update t_api
+        <set>
+            <if test="namespace != null">
+                namespace = #{namespace,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="appName != null">
+                app_name = #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="apiGroup != null">
+               api_group = #{apiGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="apiDesc != null">
+               api_desc = #{apiDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="apiScenarios != null">
+               api_scenarios = #{apiScenarios,jdbcType=VARCHAR},
+            </if>
+            <if test="addressUrl != null">
+                address_url = #{addressUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="enableLog != null">
+                enable_log = #{enableLog,jdbcType=TINYINT},
+            </if>
+            <if test="enableFreq != null">
+                enable_freq = #{enableFreq,jdbcType=TINYINT},
+            </if>
+            <if test="enableInnerOuter != null">
+                enable_inner_outer = #{enableInnerOuter,jdbcType=TINYINT},
+            </if>
+
+            <if test="validFlag != null">
+               valid_flag = #{validFlag,jdbcType=TINYINT},
+            </if>
+
+            <if test="testFlag != null">
+               test_flag = #{testFlag,jdbcType=TINYINT},
+            </if>
+
+            <if test="migrateFlag != null">
+               migrate_flag = #{migrateFlag,jdbcType=TINYINT},
+            </if>
+
+            <if test="apiType != null">
+                api_type = #{apiType,jdbcType=TINYINT},
+            </if>
+
+            <if test="sessionFlag != null">
+                session_flag = #{sessionFlag,jdbcType=TINYINT},
+            </if>
+
+            <if test="requestType != null">
+                request_type = #{requestType,jdbcType=CHAR},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=CHAR},
+            </if>
+            <if test="env != null">
+                env = #{env,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

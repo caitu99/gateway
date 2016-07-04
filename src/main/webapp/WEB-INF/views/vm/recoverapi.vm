@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Gateway</title>
+
+    <!-- Bootstrap -->
+    <link href="/statics/css/bootstrap.css" rel="stylesheet" />
+    <link href="/statics/css/font-awesome.css" rel="stylesheet" />
+    <link href="/statics/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="/statics/css/recoverapi.css" rel="stylesheet" />
+    <link href="/statics/images/favicon.ico"  rel="Shortcut Icon"/>
+
+</head>
+<body>
+
+<!-- 导航条 -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="apilist?env=$!results.get('env')">
+                <img alt="Brand" class="logo"  src="/statics/imag/logo2.jpg">
+            </a>
+
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active1"><a href="apilist?env=$!results.get('env')"><h3 style="margin:0 0 0 0;">Gateway</h3> <span class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul id="myTitle" class="nav nav-pills" style="margin:9px 0 0 0;">
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Home</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Config</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Release</a></li>
+                <!--<li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Monitor</a></li>-->
+                <li role="presentation" class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-haspopup="true" aria-expanded="false"><span id="consoleText">RecoverApi</span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" >
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console ">Monitor</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">LogView</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Users</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Manual</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Cache</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Instance</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">RecoverApi</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin:-50px 50px 0 0;"><p class="navbar-text">Welcome <span class="glyphicon glyphicon-user"></span> $!results.get('user')</p></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li role="presentation" style="margin:-63px -35px 0 0;" class="help">
+                    <a href="#">
+                        <p class="navbar-text"><strong>帮助</strong> <span class="glyphicon glyphicon-question-sign" aria-hidden="true"  class="needTip" data-toggle="tooltip" data-placement="left" title="查看帮助文档"></span></p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-primary" style="margin-top:58px;min-height:460px;">
+                <div class="panel-heading">API 列表
+                    <button type="button" class="btn btn-primary" flag="1" id="selectAll" style="float:right;margin:-7px -15px 0 0; border:0px;">全选</button>
+                    <button type="button" class="btn btn-primary" id="recoverDeleteApi" style="float:right;margin:-7px -1px 0 0; border:0px;">恢复</button>
+                </div>
+                <!-- List group -->
+                <ul class="list-group" id="listAPI">
+                    #foreach ($!apiElement in $!results.get("apilists"))
+                        <li class="list-group-item apiElement ">
+                        <a href="#">$!apiElement.namespace.$!apiElement.name.$!apiElement.version</a>
+                        <input style="float:right" class="select" apiContent="$!{apiElement.namespace}.$!{apiElement.name}.$!{apiElement.version}" flag="1" apiId="$!apiElement.id" type="checkbox">
+
+                    </li>
+                    #end
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<input type="hidden" id="user" value="$!results.get('user')" />
+<input type="hidden" id="env" value="$!results.get('env')" />
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/statics/js/jquery.js"></script>
+<script src="/statics/js/bootstrap.js"></script>
+<script src="/statics/js/jquery.validate.min.js"></script>
+<script src="/statics/js/jquery.metadata.js"></script>
+<script src="/statics/js/jquery.dataTables.min.js"></script>
+<script src="/statics/js/icheck.js"></script>
+<script src="/statics/js/recoverapi.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+
+<footer style="margin-top: -20px;">
+    <hr>
+    <p class="text-muted text-center">© caitu99.com</p>
+</footer>
+</body>
+</html>

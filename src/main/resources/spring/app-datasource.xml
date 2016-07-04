@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+        <property name="resultSetLogEnabled" value="false"/>
+        <property name="dataSourceLogEnabled" value="false"/>
+        <property name="connectionLogEnabled" value="false"/>
+        <property name="statementExecutableSqlLogEnable" value="true"/>
+    </bean>
+
+    <!-- 主要是用于limit，分页 -->
+    <bean id="mySqlDialect" class="com.caitu99.platform.dao.mybatis3.dialect.MysqlDialect"/>
+
+    <!-- data source -->
+    <bean id="dataSourceUser" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="driverClassName" value="${user.driver}"/>
+        <property name="url" value="${user.url}"/>
+        <property name="username" value="${user.username}"/>
+        <property name="password" value="${user.password}"/>
+
+        <!-- Connection Pooling Info -->
+        <property name="maxWait" value="${user.maxWait}"/>
+        <property name="initialSize" value="${user.initialSize}"/>
+        <property name="maxActive" value="${user.maxActive}"/>
+        <property name="minIdle" value="${user.minIdle}"/>
+        <property name="defaultAutoCommit" value="${user.defaultAutoCommit}"/>
+        <property name="timeBetweenEvictionRunsMillis"
+                  value="${user.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${user.minEvictableIdleTimeMillis}"/>
+        <property name="removeAbandoned" value="${user.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${user.removeAbandonedTimeout}"/>
+        <property name="logAbandoned" value="${user.logAbandoned}"/>
+        <property name="testWhileIdle" value="${user.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${user.testOnBorrow}"/>
+        <property name="testOnReturn" value="${user.testOnReturn}"/>
+        <property name="validationQuery" value="${user.validationQuery}"/>
+        <property name="proxyFilters">
+            <list>
+                <ref bean="log-filter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- data source carmen单独拆库 -->
+    <bean id="dataSourceGateway" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="driverClassName" value="${gateway.driver}"/>
+        <property name="url" value="${gateway.url}"/>
+        <property name="username" value="${gateway.username}"/>
+        <property name="password" value="${gateway.password}"/>
+
+        <!-- Connection Pooling Info -->
+        <property name="maxWait" value="${gateway.maxWait}"/>
+        <property name="initialSize" value="${gateway.initialSize}"/>
+        <property name="maxActive" value="${gateway.maxActive}"/>
+        <property name="minIdle" value="${gateway.minIdle}"/>
+        <property name="defaultAutoCommit" value="${gateway.defaultAutoCommit}"/>
+        <property name="timeBetweenEvictionRunsMillis"
+                  value="${gateway.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${gateway.minEvictableIdleTimeMillis}"/>
+        <property name="removeAbandoned" value="${gateway.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${gateway.removeAbandonedTimeout}"/>
+        <property name="logAbandoned" value="${gateway.logAbandoned}"/>
+        <property name="testWhileIdle" value="${gateway.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${gateway.testOnBorrow}"/>
+        <property name="testOnReturn" value="${gateway.testOnReturn}"/>
+        <property name="validationQuery" value="${gateway.validationQuery}"/>
+        <property name="proxyFilters">
+            <list>
+                <ref bean="log-filter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 分页参数：转换器 -->
+    <bean class="com.caitu99.platform.dao.base.para.PageConverterFactory">
+        <property name="converters">
+            <list>
+                <value>com.caitu99.gateway.apiconfig.dto.req.BasePageConvertor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 分页处理:拦截器 -->
+    <bean id="paginationInterceptor"
+          class="com.caitu99.platform.dao.mybatis3.interceptor.PaginationInterceptor">
+        <property name="pageMapper" value=".*WithPage.*"/>
+    </bean>
+
+    <!-- session factory -->
+    <bean id="sqlSessionFactoryUser"
+          class="com.caitu99.platform.dao.mybatis3.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceUser"/>
+        <property name="dataBaseDialect" ref="mySqlDialect"/>
+        <property name="configLocation" value="classpath:mybatis/app-mybatis.xml"/>
+        <property name="mapperLocations" value="classpath*:mapper/**/user/*.xml"/>
+        <property name="plugins">
+            <list>
+                <ref bean="paginationInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- session factory -->
+    <bean id="sqlSessionFactoryGateway"
+          class="com.caitu99.platform.dao.mybatis3.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceGateway"/>
+        <property name="dataBaseDialect" ref="mySqlDialect"/>
+        <property name="configLocation" value="classpath:mybatis/app-mybatis.xml"/>
+        <property name="mapperLocations" value="classpath*:mapper/**/gateway/*.xml"/>
+        <property name="plugins">
+            <list>
+                <ref bean="paginationInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- mapper interface -->
+    <!-- for user database -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.caitu99.gateway.*.dao.user"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryUser"/>
+    </bean>
+    <!-- for gateway database -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.caitu99.gateway.*.dao.gateway"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryGateway"/>
+    </bean>
+
+    <!-- transaction support-->
+    <bean id="txManagerCommon"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceUser"/>
+    </bean>
+    <bean id="txManagerCarmen"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceGateway"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="txManagerCommon"/>
+    <tx:annotation-driven transaction-manager="txManagerCarmen"/>
+
+</beans>

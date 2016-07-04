@@ -1,0 +1,14 @@
+// Scaffolding
+@body-bg:    #fff;
+@text-color: @black-50;
+
+body {
+  position: relative;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-top: -10px;
+  margin-left: 19px;
+}

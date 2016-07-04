@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.apiconfig.dao.gateway.IApiMethodMappingDAO">
+    <resultMap id="BaseResultMap" type="com.caitu99.gateway.apiconfig.model.CarmenApiMethodMapping">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="api_id" property="apiId" jdbcType="BIGINT"/>
+        <result column="service_method_id" property="serviceMethodId" jdbcType="BIGINT"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="is_delete" property="isDelete" jdbcType="CHAR"/>
+        <result column="env" property="env" jdbcType="TINYINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, api_id, service_method_id, creator, create_time, modifier, modify_time, is_delete, 
+    env
+  </sql>
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_api_method_mapping
+        where id = #{id,jdbcType=BIGINT} AND is_delete='n'
+    </select>
+
+    <select id="getByApiId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_api_method_mapping
+        where api_id = #{apiId,jdbcType=BIGINT} and env=#{env,jdbcType=TINYINT} AND is_delete='n'
+    </select>
+
+    <select id="getByServiceMethodId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_api_method_mapping
+        where service_method_id = #{serviceMethodId,jdbcType=BIGINT} and env=#{env,jdbcType=TINYINT}
+        AND is_delete='n'
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_api_method_mapping
+        where api_id = #{apiId,jdbcType=BIGINT} AND service_method_id = #{serviceMethodId,jdbcType=BIGINT} and env=#{env,jdbcType=TINYINT}
+        AND is_delete='n'
+    </select>
+
+    <select id="getApiIdList" resultType="java.lang.Long">
+        select DISTINCT api_id  from t_api_method_mapping
+        where env=#{env,jdbcType=TINYINT} and is_delete='n'
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+    update t_api_method_mapping set is_delete='y'
+    where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="physicalDelete" parameterType="java.lang.Long">
+        delete from t_api_method_mapping
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="save" parameterType="com.caitu99.gateway.apiconfig.model.CarmenApiMethodMapping"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_api_method_mapping
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="apiId != null">
+                api_id,
+            </if>
+            <if test="serviceMethodId != null">
+                service_method_id,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifier != null">
+                modifier,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="env != null">
+                env,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="apiId != null">
+                #{apiId,jdbcType=BIGINT},
+            </if>
+            <if test="serviceMethodId != null">
+                #{serviceMethodId,jdbcType=BIGINT},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=CHAR},
+            </if>
+            <if test="env != null">
+                #{env,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.caitu99.gateway.apiconfig.model.CarmenApiMethodMapping">
+        update t_api_method_mapping
+        <set>
+            <if test="apiId != null">
+                api_id = #{apiId,jdbcType=BIGINT},
+            </if>
+            <if test="serviceMethodId != null">
+                service_method_id = #{serviceMethodId,jdbcType=BIGINT},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=CHAR},
+            </if>
+            <if test="env != null">
+                env = #{env,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.oauth.dao.user.IOauthUserDAO">
+	<resultMap id="BaseResultMap" type="com.caitu99.gateway.oauth.model.OauthUser">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="mobile" property="account" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="login_count" property="login_count" jdbcType="INTEGER"/>
+		<result column="type" property="type" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<resultMap id="BaseResultMap_QQ" type="com.caitu99.gateway.oauth.model.OauthUser">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="qq" property="account" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="imgurl" property="profileimg" jdbcType="VARCHAR"/>
+		<result column="qq_Nick" property="nickname" jdbcType="VARCHAR"/>
+		<result column="login_count" property="login_count" jdbcType="INTEGER"/>
+		<result column="type" property="type" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<resultMap id="BaseResultMap_WeChatOpenId" type="com.caitu99.gateway.oauth.model.OauthUser">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="openid" property="account" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="imgurl" property="profileimg" jdbcType="VARCHAR"/>
+		<result column="wechat_Nick" property="nickname" jdbcType="VARCHAR"/>
+		<result column="login_count" property="login_count" jdbcType="INTEGER"/>
+		<result column="type" property="type" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<resultMap id="BaseResultMap_Weibo" type="com.caitu99.gateway.oauth.model.OauthUser">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="weibo" property="account" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="imgurl" property="profileimg" jdbcType="VARCHAR"/>
+		<result column="weibo_Nick" property="nickname" jdbcType="VARCHAR"/>
+		<result column="login_count" property="login_count" jdbcType="INTEGER"/>
+		<result column="type" property="type" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	
+	<resultMap id="BaseResultMap_WeChatOpenIdBinding" type="com.caitu99.gateway.oauth.model.OauthUser">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="openid_binding" property="account" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="imgurl" property="profileimg" jdbcType="VARCHAR"/>
+		<result column="wechat_Nick" property="nickname" jdbcType="VARCHAR"/>
+		<result column="login_count" property="login_count" jdbcType="INTEGER"/>
+		<result column="type" property="type" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+        id, mobile, password,login_count,type
+    </sql>
+
+	<sql id="Base_Column_List_QQ">
+		id, qq, password,imgurl,qq_Nick,login_count,type
+	</sql>
+
+	<sql id="Base_Column_List_WeChat_openid">
+		id, openid, password,imgurl,wechat_Nick,login_count,type
+	</sql>
+
+	<sql id="Base_Column_List_WeChat_openid_binding">
+		id, openid_binding, password,imgurl,wechat_Nick,login_count,type
+	</sql>
+
+	<sql id="Base_Column_List_Weibo">
+		id, weibo, password,imgurl,weibo_Nick,login_count,type
+	</sql>
+
+	
+	<select id="getUserByUserId" parameterType="com.caitu99.gateway.oauth.model.OauthUser" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from t_user where password=#{password,jdbcType=VARCHAR} and
+		mobile=#{account,jdbcType=VARCHAR}
+	</select>
+
+	<!--手机号登录-->
+	<select id="getUserByMobile" parameterType="com.caitu99.gateway.oauth.model.OauthUser" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from t_user where mobile=#{account,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="insertUserByMobile" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into t_user(mobile, login_count,type,gmt_create,gmt_modify,client_id)
+		values(#{account,jdbcType=VARCHAR},1,1,now(),now(),#{client_id,jdbcType=INTEGER})
+	</insert>
+
+	<update id="updateUserLoginCntByMobile" parameterType="com.caitu99.gateway.oauth.model.OauthUser">
+		update t_user
+		set login_count=#{login_count,jdbcType=INTEGER}
+		where mobile=#{account,jdbcType=VARCHAR}
+	</update>
+
+	<!--QQ登录-->
+	<select id="getUserByQQ" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+			resultMap="BaseResultMap_QQ">
+		select <include refid="Base_Column_List_QQ"/>
+		from t_user where qq=#{account,jdbcType=VARCHAR}
+	</select>
+
+
+	<insert id="insertUserByQQ" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into t_user(qq,qq_Nick, login_count,type,gmt_create,gmt_modify,client_id)
+		values(#{account,jdbcType=VARCHAR},#{nickname,jdbcType=VARCHAR},1,1,now(),now(),#{client_id,jdbcType=INTEGER})
+	</insert>
+
+    <update id="updateUserByQQ" parameterType="com.caitu99.gateway.oauth.model.OauthUser">
+        update t_user
+        set qq_Nick=#{nickname,jdbcType=VARCHAR},
+         login_count=#{login_count,jdbcType=INTEGER}
+        where qq=#{account,jdbcType=VARCHAR}
+
+    </update>
+
+    <select id="getUserIdByQQ" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+            resultType="java.lang.Integer">
+        select id from t_user
+        where qq=#{account,jdbcType=VARCHAR} and status=1
+    </select>
+
+	<!--微信登录-->
+	<select id="getUserByWeChatOpenId" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+			resultMap="BaseResultMap_WeChatOpenId">
+		select <include refid="Base_Column_List_WeChat_openid"/>
+		from t_user where openid=#{account,jdbcType=VARCHAR}
+	</select>
+	
+	<!--微信登录-->
+	<select id="getUserByWeChatOpenIdBinding" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+			resultMap="BaseResultMap_WeChatOpenIdBinding">
+		select <include refid="Base_Column_List_WeChat_openid_binding"/>
+		from t_user where openid_binding=#{account,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="insertUserByWeChatOpenId" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into t_user(openid,wechat_Nick, login_count,type,gmt_create,gmt_modify,client_id)
+		values(#{account,jdbcType=VARCHAR},#{nickname,jdbcType=VARCHAR},1,1,now(),now(),#{client_id,jdbcType=INTEGER})
+	</insert>
+
+    <update id="updateUserByWeChat" parameterType="com.caitu99.gateway.oauth.model.OauthUser">
+        update t_user
+        set wechat_Nick=#{nickname,jdbcType=VARCHAR},
+         login_count=#{login_count,jdbcType=INTEGER}
+        where openid=#{account,jdbcType=VARCHAR}
+
+    </update>
+
+    <select id="getUserIdByWeiBo" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+            resultType="java.lang.Integer">
+        select id from t_user
+        where weibo=#{account,jdbcType=VARCHAR} and status=1
+    </select>
+
+
+	<!--微博登录-->
+	<select id="getUserByWeibo" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+			resultMap="BaseResultMap_Weibo">
+		select <include refid="Base_Column_List_Weibo"/>
+		from t_user where weibo=#{account,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="insertUserByWeibo" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into t_user(weibo,weibo_Nick, login_count,type,gmt_create,gmt_modify,client_id)
+		values(#{account,jdbcType=VARCHAR},#{nickname,jdbcType=VARCHAR},1,1,now(),now(),#{client_id,jdbcType=INTEGER})
+	</insert>
+
+    <update id="updateUserByWeiBo" parameterType="com.caitu99.gateway.oauth.model.OauthUser">
+        update t_user
+        set weibo_Nick=#{nickname,jdbcType=VARCHAR},
+         login_count=#{login_count,jdbcType=INTEGER}
+        where weibo=#{account,jdbcType=VARCHAR}
+
+    </update>
+
+    <select id="getUserIdByWeChat" parameterType="com.caitu99.gateway.oauth.model.OauthUser"
+            resultType="java.lang.Integer">
+        select id from t_user
+        where openid=#{account,jdbcType=VARCHAR} and status=1
+    </select>
+</mapper>

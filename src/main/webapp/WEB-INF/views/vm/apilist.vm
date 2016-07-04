@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+<title>Gateway</title>
+
+<!-- Bootstrap -->
+<link href="/statics/css/bootstrap.css" rel="stylesheet" />
+<link href="/statics/css/font-awesome.css" rel="stylesheet" />
+<link href="/statics/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="/statics/css/apilist.css" rel="stylesheet" />
+
+<!--<link href="favicon.ico" mce_href="favicon.ico" rel="bookmark" type="image/x-icon" />-->
+<!--<link href="favicon.ico" mce_href="favicon.ico" rel="icon" type="image/x-icon" />-->
+<link href="/statics/images/favicon.ico"  rel="Shortcut Icon"/>
+
+
+</head>
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+<!-- 导航条 -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="apilist?env=$!results.get('env')">
+                <img alt="Brand" class="logo"  src="/statics/imag/logo2.jpg">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active1"><a href="apilist?env=$!results.get('env')"><h3 style="margin:0 0 0 0;">Gateway</h3> <span class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul id="myTitle" class="nav nav-pills" style="margin:9px 0 0 0;">
+                <li role="presentation" class="active"><a href="#" role="tab" data-toggle="tab" class="titles">Home</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Config</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Release</a></li>
+                <!--<li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Monitor</a></li>-->
+                <li role="presentation" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-haspopup="true" aria-expanded="false"><span id="consoleText">Console</span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" >
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console ">Monitor</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Manual</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Cache</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Instance</a></li>
+                        #if($!results.get("isAdmin"))
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">LogView</a></li>
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">Users</a></li>
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">RecoverApi</a></li>
+                        #end
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left" id="env" style="margin: -38px 0 0 46%;">
+                <div class="form-group radio">
+                    #if(2 == $!results.get('env'))
+                        <input class="envRadio" type="radio" name="env"  value="1" >
+                        <label><p class="text-primary">dev</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="2" checked>
+                        <label><p class="text-primary">test</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="3">
+                        <label><p class="text-primary">product</p></label>
+                    #elseif(3 == $!results.get('env'))
+                        <input class="envRadio" type="radio" name="env"  value="1" >
+                        <label><p class="text-primary">dev</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="2">
+                        <label><p class="text-primary">test</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="3" checked>
+                        <label><p class="text-primary">product</p></label>
+                    #else
+                        <input class="envRadio" type="radio" name="env"  value="1" checked>
+                        <label><p class="text-primary">dev</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="2">
+                        <label><p class="text-primary">test</p></label>
+                        <input class="envRadio" type="radio" name="env"  value="3">
+                        <label><p class="text-primary">product</p></label>
+                    #end
+
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin:-50px 50px 0 0;"><p class="navbar-text">Welcome <span class="glyphicon glyphicon-user"></span> $!results.get('user')</p></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li role="presentation" style="margin:-63px -35px 0 0;" class="help">
+                    <a href="#">
+                        <p class="navbar-text"><strong>帮助</strong> <span class="glyphicon glyphicon-question-sign" aria-hidden="true"  class="needTip" data-toggle="tooltip" data-placement="left" title="查看帮助文档"></span></p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 bs-docs-sidebar" >
+            <div id="navbarLeft" data-spy="affix" data-offset-top="200"  style="margin-top:60px;">
+                <ul class="nav nav-list bs-docs-sidenav">
+                    <li class="affixGroup active" group="all"><a href="#"><i class="icon-chevron-right"></i>所有</a></li>
+                    #foreach ($!apiParam in $!results.get("groupList").entrySet())
+                        <li class="affixGroup" group="$!apiParam.key"><a href="#"><i class="icon-chevron-right"></i>$!apiParam.value</a></li>
+                    #end
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-primary" style="margin-top:60px;min-height:460px;">
+                <div class="panel-heading">API 列表
+
+                    <button type="button" class="btn btn-primary" id="newCreateTask" style="float:right;margin:-7px -15px 0 0; border:0px;">
+                        <span class="glyphicon glyphicon-plus"></span>新建API
+                    </button>
+                    <button type="button" class="btn btn-primary" id="testMonitorTask" style="float:right;margin:-7px -15px 0 0; border:0px; display:none;">
+                        testMonitor
+                    </button>
+                </div>
+                <!-- List group -->
+                <div>
+                    <ul class="list-group" id="listAPI">
+                        #foreach ($!apiElement in $!results.get("apilists"))
+                            #if(1 == $!apiElement.testFlag)
+                                <li class="list-group-item list-group-item-success apiElement">
+                                    <span style="margin: 0 6px 0 -10px;" data-toggle="tooltip" data-placement="top" title="测试已通过" class="glyphicon glyphicon-ok-circle"></span>
+                                    <a href="#" class="apidetail" apiId="$!apiElement.id">$!apiElement.namespace.$!apiElement.name.$!apiElement.version</a>
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="删除" style="float:right" ><span apiID="$!apiElement.id" class="glyphicon glyphicon-trash deleteIcon"></span></a>
+                                    <a href="#" style="float:right" ><span data-toggle="tooltip" data-placement="top" title="监控数据" namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiID="$!apiElement.id"  class="glyphicon glyphicon-eye-open apimonitor"></span></a>
+                                    #if(1==$!apiElement.validFlag)
+                                        <a href="#" style="float:right" ><span data-toggle="tooltip" data-placement="top" title="禁用" namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiID="$!apiElement.id" flag="1" class="glyphicon glyphicon-remove-circle disableIcon"></span></a>
+                                    #else
+                                        <a href="#" style="float:right" ><span data-toggle="tooltip" data-placement="top" title="启用" namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiID="$!apiElement.id" flag="0" class="glyphicon glyphicon-ok-circle disableIcon"></span></a>
+                                    #end
+                                        <a href="#" data-toggle="tooltip" data-placement="top" title="修改白名单" style="float:right"><span namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiId="$!apiElement.id" class="glyphicon glyphicon-cog modifyWhiteList"></span></a>
+                                        <a href="#" data-toggle="tooltip" data-placement="top" title="新增资源" style="float:right"><span namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiId="$!apiElement.id" class="glyphicon glyphicon-plus-sign addResource"></span></a>
+                                        <a href="#" data-toggle="tooltip" data-placement="top" title="测试接口" style="float:right"><span apiId="$!apiElement.id" namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" class="glyphicon glyphicon-wrench testApi"></span></a>
+                                        <a href="#" data-toggle="tooltip" data-placement="top" title="编辑" style="float:right" ><span namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiId="$!apiElement.id" class="glyphicon glyphicon-edit editIcon"></span></a>
+                                </li>
+                            #else
+                                <li class="list-group-item apiElement">
+                                    <a href="#" class="apidetail" apiId="$!apiElement.id">$!apiElement.namespace.$!apiElement.name.$!apiElement.version</a>
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="删除" style="float:right" ><span apiID="$!apiElement.id" class="glyphicon glyphicon-trash deleteIcon"></span></a>
+                                    <a href="#" style="float:right" ><span data-toggle="tooltip" data-placement="top" title="监控数据" namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiID="$!apiElement.id"  class="glyphicon glyphicon-eye-open apimonitor"></span></a>
+                                    #if(1==$!apiElement.validFlag)
+                                        <a href="#" style="float:right" ><span data-toggle="tooltip" data-placement="top" title="禁用" namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiID="$!apiElement.id" flag="1" class="glyphicon glyphicon-remove-circle disableIcon"></span></a>
+                                    #else
+                                        <a href="#" style="float:right" ><span data-toggle="tooltip" data-placement="top" title="启用" namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiID="$!apiElement.id" flag="0" class="glyphicon glyphicon-ok-circle disableIcon"></span></a>
+                                    #end
+                                        <a href="#" data-toggle="tooltip" data-placement="top" title="修改白名单" style="float:right"><span namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiId="$!apiElement.id" class="glyphicon glyphicon-cog modifyWhiteList"></span></a>
+                                        <a href="#" data-toggle="tooltip" data-placement="top" title="新增资源" style="float:right"><span namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiId="$!apiElement.id" class="glyphicon glyphicon-plus-sign addResource"></span></a>
+                                        <a href="#" data-toggle="tooltip" data-placement="top" title="测试接口" style="float:right"><span apiId="$!apiElement.id" namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" class="glyphicon glyphicon-wrench testApi"></span></a>
+                                        <a href="#" data-toggle="tooltip" data-placement="top" title="编辑" style="float:right" ><span namespace="$!apiElement.namespace" name="$!apiElement.name" version="$!apiElement.version" apiId="$!apiElement.id" class="glyphicon glyphicon-edit editIcon"></span></a>
+                                </li>
+                            #end
+                        #end
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+</div>
+
+<!--  deleted Modal -->
+<div class="modal fade" id="myDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog" style="  width: 400px;margin-top: 160px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myDeleteLabel">删除当前API</h4>
+            </div>
+            <div class="modal-body">
+                <span id="deleteApiTip">确定要删除当前API么？</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureDelete">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  test Modal -->
+<div class="modal fade" id="myTestModal" tabindex="-1" role="dialog" aria-labelledby="myTestLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top:160px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myTestLabel">测试当前API</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline testApiParam">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="testUrl" id="testUrl" placeholder="Enter request URL here" value="http://service.caitu99.com/api/oauthentry">
+                    </div>
+                    <select style="min-width:50px;max-height:35px;" id="requestType"  name="requestType" class="form-control" ><option value="1" selected>POST</option><option value="2" >GET</option></select>
+                    <button type="button" class="btn btn-primary addParams"><span class="glyphicon glyphicon-plus"></span>添加参数</button>
+                </form>
+                <table id="testApiParam" class="table table-striped table-bordered" >
+                    <thead>
+                    <tr>
+                        <th>URL Parameter Key</th>
+                        <th>Value</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="carmenMethodParamBody">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-danger" role="alert" style="margin-bottom: -1px;display:none;height:100px;overflow:auto" id="apiTestInfo"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureTest">测试</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  modify Resource Modal -->
+<div class="modal fade" id="myResourceModal" tabindex="-1" role="dialog" aria-labelledby="myResourceLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top:90px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myResourceLabel">配置资源表</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" id="resourceConfigTab">
+                    <li role="presentation" ><a href="#" data-toggle="resourceTab">ResourceGroup</a></li>
+                    <li role="presentation" class="active"><a href="#" data-toggle="resourceTab">Resource</a></li>
+                    <li role="presentation" ><a href="#" data-toggle="resourceTab">OAuth Client</a></li>
+                </ul>
+                <div class="alert alert-danger" role="alert" style="margin-bottom:2px;display:none;overflow:auto;height:100px;" id="apiResourceInfo"></div>
+                <!-- resource表 -->
+                <form class="form-horizontal" id="apiResourceConfig">
+                    <div id="resourceTable">
+                        <div class="form-group">
+                            <label for="uri" class="col-sm-2 control-label">uri</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="uri" id="uri" placeholder="uri" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="col-sm-2 control-label">description</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control required" id="description" name="description" placeholder="description" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="groupAlias" class="col-sm-2 control-label">groupAlias</label>
+                            <div class="col-sm-6">
+                                <!--<input type="text" class="form-control required"  name="groupAlias" id="groupAlias" placeholder="groupAlias" value="">-->
+                                <select style="min-width:50px;max-height:35px;" id="groupAlias"  name="groupAlias" class="form-control" >
+                                    <!--<option value="1" selected>普通接口</option>-->
+                                    <!--<option value="2" >高级接口</option><option value="3" >超级接口</option>-->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="resourceVersion" class="col-sm-2 control-label">version</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control required" name="resourceVersion" id="resourceVersion" placeholder="version" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="apiId" class="col-sm-2 control-label">apiId</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control required" name="apiId" id="apiId" placeholder="apiId" value=""><input type="hidden" id="resourceId" name="resourceId" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- resource group table -->
+                <form class="form-horizontal" id="apiResourceGroupConfig" style="display:none;">
+                    <div id="resourceGroupTable">
+                        <div class="form-group">
+                            <label for="resourceGroupName" class="col-sm-3 control-label">资源组名字</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control required" name="resourceGroupName" id="resourceGroupName" placeholder="resource group name" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="resourceAlias" class="col-sm-3 control-label">资源组别名</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control required" id="resourceAlias" name="resourceAlias" placeholder="resource alias" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="resourceGroupLevel" class="col-sm-3 control-label">Level</label>
+                            <div class="col-sm-6">
+                                <!--<input type="text" class="form-control required"  name="resourceGroupLevel" id="resourceGroupLevel" placeholder="resource group level" value="">-->
+                                <select style="min-width:50px;max-height:35px;" id="resourceGroupLevel"  name="resourceGroupLevel" class="form-control" >
+                                    <option value="1" selected>普通接口</option>
+                                    <option value="2" >高级接口</option><option value="3" >超级接口</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- client id table -->
+                <form class="form-horizontal" id="apiClientIdConfig" style="display:none;">
+
+                    <div id="clientIdTable">
+                        <table id="clientIdParam" class="table table-striped table-bordered" >
+                            <thead>
+                            <tr>
+                                <th>Value</th>
+                                <th>Type</th>
+                                <th>ClientId</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="clientIdParamBody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+                <button type="button" class="btn btn-primary" id="addRowFrequency" style="display:none;margin-left:88%;">新增行</button>
+                <div class="alert alert-danger" role="alert" style="margin-bottom:2px;display:none;" id="clientIdInfo"></div>
+            </div>
+            <div class="alert alert-danger" role="alert" style="margin-bottom: -1px;display:none;" id="apiResourceInfo1"></div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" flag="resource" id="sureModifyResource">确定</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--  modify frequency Modal -->
+<div class="modal fade" id="myFrequencyModal" tabindex="-1" role="dialog" aria-labelledby="myFrequencyLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top:90px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myFrequencyLabel">接口频率控制配置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert" style="margin-bottom:2px;display:none;" id="apiFrequencyInfo"></div>
+                <!-- resource表 -->
+                <form class="form-horizontal" id="apiFrequencyConfig">
+                    <div id="FrequencyTable">
+                        <div class="form-group">
+                            <label for="freqValue" class="col-sm-2 control-label">value</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="freqValue" id="freqValue" placeholder="value" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="freqType" class="col-sm-2 control-label">type</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control required" id="freqType" name="freqType" placeholder="type" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="freqApiId" class="col-sm-2 control-label">freqApiId</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control required" name="freqApiId" id="freqApiId" placeholder="freqApiId" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clientId" class="col-sm-2 control-label">clientId</label>
+                            <div class="col-sm-6">
+                                <select style="min-width:50px;max-height:35px;" id="clientId"  name="clientId" class="form-control" >
+                                    <!--<option value="1" selected>普通接口</option>-->
+                                    <!--<option value="2" >高级接口</option><option value="3" >超级接口</option>-->
+                                </select>
+                                <input type="hidden" id="Id" name="Id" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" flag="frequency" id="sureModifyFrequency">确定</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Modify WhiteList Modal -->
+<div class="modal fade" id="myWhiteListModal" tabindex="-1" role="dialog" aria-labelledby="myWhiteListLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top:160px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myWhiteListLabel">修改白名单</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline modifyWhiteListForm">
+                    <div class="form-group radio">
+                        <input class="whiteListRadio" type="radio" name="whiteList" id="addWhiteList" value="1" checked>
+                        <label><p class="text-primary">添加到白名单</p></label>
+                        <input class="whiteListRadio" type="radio" name="whiteList" id="deleteWhiteList" value="2">
+                        <label><p class="text-primary">从白名单删除</p></label>
+                    </div>
+                </form>
+
+            </div>
+            <div class="alert alert-danger" role="alert" style="margin-bottom: -1px;display:none;" id="apiModifyWhiteListInfo"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureModify">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Modify  Modal -->
+<div class="modal fade" id="myTokenModal" tabindex="-1" role="dialog" aria-labelledby="myTokenModal" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top:160px;">
+        <div class="modal-content tokenContent">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myTokenModalLebal">获取access_token</h4>
+            </div>
+            <div class="modal-body">
+                <form id="accessToken">
+                    <div class="form-group">
+                        <label for="userName">用户名</label>
+                        <input type="text" class="form-control required" name="userName" id="userName" placeholder="user name">
+                    </div>
+                    <div hidden class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" value="1234" class="form-control required" name="password" id="password" placeholder="Password">
+                    </div>
+                </form>
+
+            </div>
+            <div class="alert alert-danger" role="alert" style="margin-bottom: -1px;display:none;" id="apiAccessTokenInfo"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureGetToken">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="user" value="$!results.get('user')" />
+<input type="hidden" id="deleteApiId" value="0" />
+<input type="hidden" id="currentTestApiId" value="0" />
+<input type="hidden" id="currentTestApiNameSpace" value="0" />
+<input type="hidden" id="currentTestApiName" value="0" />
+<input type="hidden" id="testResult" value="0" />
+<input type="hidden" id="resourceTimeStamp" value="0" />
+<input type="hidden" id="resourceCurrentUri" value="0" />
+<input type="hidden" id="resourceCurrentVersion" value="0" />
+<input type="hidden" id="resourceCurrentApiId" value="0" />
+<input type="hidden" id="modifyNamespace" value="0" />
+<input type="hidden" id="modifyName" value="0" />
+<input type="hidden" id="testResultContent" value="0" />
+<input type="hidden" id="clientIdsStr" value="0" />
+<input type="hidden" id="clientNamesStr" value="0" />
+<input type="hidden" id="currentClientApiId" value="0" />
+<input type="hidden" id="currentGroup" value="all" />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/statics/js/jquery.js"></script>
+<script src="/statics/js/bootstrap.js"></script>
+<script src="/statics/js/jquery.validate.min.js"></script>
+<script src="/statics/js/jquery.metadata.js"></script>
+<script src="/statics/js/jquery.dataTables.min.js"></script>
+<script src="/statics/js/apilist.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+
+<footer style="margin-top: -20px;">
+    <hr>
+    <p class="text-muted text-center">© caitu99.com</p>
+</footer>
+</body>
+</html>

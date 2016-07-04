@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Gateway</title>
+
+    <!-- Bootstrap -->
+    <link href="/statics/css/bootstrap.css" rel="stylesheet" />
+    <link href="/statics/css/monitor.css" rel="stylesheet" />
+    <link href="/statics/css/font-awesome.css" rel="stylesheet" />
+    <link href="/statics/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen"/>
+    <link href="/statics/images/favicon.ico"  rel="Shortcut Icon"/>
+</head>
+<body style="background:#C0C0C0;">
+
+<!-- 导航条 -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="apilist?env=$!results.get('env')">
+                <img alt="Brand" class="logo"  src="/statics/imag/logo2.jpg">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active1"><a href="apilist?env=$!results.get('env')"><h3 style="margin:0 0 0 0;">Gateway</h3> <span class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul id="myTitle" class="nav nav-pills" style="margin:9px 0 0 0;">
+                <li role="presentation"><a href="#" role="tab" data-toggle="tab" class="titles">Home</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Config</a></li>
+                <li role="presentation"  ><a href="#" role="tab" data-toggle="tab" class="titles">Release</a></li>
+                <!--<li role="presentation" class="active"><a href="#" role="tab" data-toggle="tab" class="titles">Monitor</a></li>-->
+                <li role="presentation" class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-haspopup="true" aria-expanded="false"><span id="consoleText">Monitor</span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" >
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console ">Monitor</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Manual</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Cache</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Instance</a></li>
+                        #if($!results.get("isAdmin"))
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">LogView</a></li>
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">Users</a></li>
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">RecoverApi</a></li>
+                        #end
+
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin:-50px 50px 0 0;"><p class="navbar-text">Welcome <span class="glyphicon glyphicon-user"></span> $!results.get('data')</p></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li role="presentation" style="margin:-63px -35px 0 0;" class="help">
+                    <a href="#">
+                        <p class="navbar-text"><strong>帮助</strong> <span class="glyphicon glyphicon-question-sign" aria-hidden="true"  class="needTip" data-toggle="tooltip" data-placement="left" title="查看帮助文档"></span></p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+<div class="Monitor">
+
+    <form class="form-horizontal" style="height:40px;">
+        <fieldset style="margin-left:20px;">
+            <legend>实时数据展示区域</legend>
+        </fieldset>
+        <div class="row" style="margin:0 0 10px 10px;">
+            <div class="col-md-4" id="callcount" ></div>
+            <div class="col-md-4" id="rt" ></div>
+            <div class="col-md-4" id="failcount"></div>
+        </div>
+    </form>
+    <form class="form-inline" style="margin:452px 0 20px 20px;">
+        <div class="input-append date" id="date-start" style="float:left;">
+            <span><strong>Start: </strong></span>
+            <input type="text" id="datetimepickerStart" class="form-control task-input" placeholder='Start time'  readonly>
+            <span class="add-on"><i class="icon-large icon-th beyond-black"></i></span>
+        </div>
+        <div class="input-append date" id="date-end" style="float:left;margin-left:20px;">
+            <span><strong>End: </strong></span>
+            <input type="text" id="datetimepickerEnd" class="form-control task-input" placeholder='End time'  readonly>
+            <span class="add-on"><i class="icon-large icon-th beyond-black"></i></span>
+        </div>
+
+        <div class="form-group" style="margin-left:10px;">
+            <label for="host">Group</label>
+            <input type="text" class="form-control" id="Group" placeholder="请输入Group">
+        </div>
+
+        <div class="form-group" style="margin-left:10px;">
+            <label for="host">API</label>
+            <input type="text" class="form-control" id="api" placeholder="请输入api" value="$!results.get('apiName')">
+        </div>
+
+        <div class="form-group" style="margin-left:10px;">
+            <label for="host">Host</label>
+            <input type="text" class="form-control" id="host" placeholder="请输入host">
+        </div>
+
+        <div class="form-group" style="margin-left:10px;">
+            <button type="button" class="btn btn-primary" id="statistic" style="margin-left:10px;">统计</button>
+        </div>
+        <!--<button type="submit" class="btn btn-primary">Transfer cash</button>-->
+    </form>
+    <form class="form-horizontal"  style="margin-left:20px;margin-right:20px;">
+        <fieldset>
+            <legend>调用次数统计</legend>
+        </fieldset>
+        <div id="callcountStatic" style="min-width:800px;height:400px"></div>
+    </form>
+
+    <form class="form-horizontal"  style="margin-left:20px;margin-right:20px;">
+        <fieldset>
+            <legend>RT时间统计</legend>
+        </fieldset>
+        <div id="responsetimeStatic" style="min-width:800px;height:400px"></div>
+    </form>
+    <form class="form-horizontal"  style="margin-left:20px;margin-right:20px;">
+        <fieldset>
+            <legend>错误次数统计</legend>
+        </fieldset>
+        <div id="failcountStatic" style="min-width:800px;height:400px"></div>
+    </form>
+</div>
+<footer >
+    <hr>
+    <p class="text-muted text-center">© caitu99.com</p>
+</footer>
+
+<input type="hidden" id="callCountKey" value="0">
+<input type="hidden" id="callCountValue" value="0">
+
+<input type="hidden" id="RTKey" value="0">
+<input type="hidden" id="RTValue" value="0">
+
+<input type="hidden" id="failureKey" value="0">
+<input type="hidden" id="failureValue" value="0">
+
+<input type="hidden" id="startYear" value="0">
+<input type="hidden" id="startMonth" value="0">
+<input type="hidden" id="startDate" value="0">
+<input type="hidden" id="startHour" value="0">
+<input type="hidden" id="startMinute" value="0">
+<input type="hidden" id="times" value="0">
+<input type="hidden" id="apiMonitor" value="$!results.get('apiName')" />
+<input type="hidden" id="env" value="$!results.get('env')" />
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/statics/js/jquery.js"></script>
+<script src="/statics/js/bootstrap.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/statics/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/statics/js/locales/bootstrap-datetimepicker.fr.js"></script>
+<script src="/statics/js/highcharts.js"></script>
+<script src="/statics/js/monitor.js"></script>
+</body>
+</html>

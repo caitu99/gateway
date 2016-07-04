@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Gateway</title>
+
+    <!-- Bootstrap -->
+    <link href="/statics/css/bootstrap.css" rel="stylesheet" />
+    <link href="/statics/css/user.css" rel="stylesheet" />
+    <link href="/statics/css/font-awesome.css" rel="stylesheet" />
+    <link href="/statics/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="/statics/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen"/>
+    <link href="/statics/images/favicon.ico"  rel="Shortcut Icon"/>
+</head>
+<body>
+
+<!-- 导航条 -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="apilist?env=$!results.get('env')">
+                <img alt="Brand" class="logo"  src="/statics/imag/logo2.jpg">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active1"><a href="apilist?env=$!results.get('env')"><h3 style="margin:0 0 0 0;">Gateway</h3> <span class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul id="myTitle" class="nav nav-pills" style="margin:9px 0 0 0;">
+                <li role="presentation"><a href="#" role="tab" data-toggle="tab" class="titles">Home</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Config</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Release</a></li>
+                <!--<li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Monitor</a></li>-->
+                <li role="presentation" class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-haspopup="true" aria-expanded="false"><span id="consoleText">LogView</span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" >
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console ">Monitor</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">LogView</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Users</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Manual</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Cache</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Instance</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">RecoverApi</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin:-50px 50px 0 0;"><p class="navbar-text">Welcome <span class="glyphicon glyphicon-user"></span> $!results.get("data")</p></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li role="presentation" style="margin:-63px -35px 0 0;" class="help">
+                    <a href="#">
+                        <p class="navbar-text"><strong>帮助</strong> <span class="glyphicon glyphicon-question-sign" aria-hidden="true"  class="needTip" data-toggle="tooltip" data-placement="left" title="查看帮助文档"></span></p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<div class="container-fluid center-content">
+
+    <div class="row">
+        <div>
+            <div class="panel panel-primary" style="margin-top:20px;min-height:460px;">
+                <div class="panel-heading">
+                    <!--<span class="apiconfig">日志</span>-->
+                        <!--<div class="input-append" style="float:left;">-->
+                            <!--<select id="userGroup" name="isFreq" class="form-control" >-->
+                                <!--<option value="1" >所有</option>-->
+                                <!--<option value="2" >管理员</option>-->
+                                <!--<option value="3" >普通用户</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+
+
+                        <!--<div class="form-group" style="margin-left:10px;">-->
+                            <!--<label for="username">User Name</label>-->
+                            <!--<input type="text" class="form-control" id="username" placeholder="请输入user name">-->
+                        <!--</div>-->
+
+                        <!--<div class="form-group" style="margin-left:10px;">-->
+                            <!--<button type="button" class="btn btn-primary" id="findUser" style="margin-left:10px;"><span class="glyphicon glyphicon-search"></span>查询</button>-->
+                        <!--</div>-->
+                        <!--<button type="submit" class="btn btn-primary">Transfer cash</button>-->
+                        用户列表
+                        <button type="button" class="btn btn-primary" id="createUser" style="float:right;margin:-7px -15px 0 0; border:0px;">
+                            <span class="glyphicon glyphicon-plus"></span>新增用户
+                        </button>
+                </div>
+                <!-- 选择配置JAVA还是PHP -->
+                <div class="userconfig">
+                    <div class="alert alert-danger" role="alert" style="margin-bottom: -1px;display:none;" id="userConfigInfo"></div>
+                    <table id="users" class="table table-striped table-bordered" >
+                        <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>所属组</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="userConfigBody">
+                            #foreach ($!user in $!results.get("allList"))
+                                <tr>
+                                    <td>$!user.userName</td>
+                                    #if(1 == $!user.userGroup)
+                                        <td>管理员</td>
+                                    #elseif(2 == $!user.userGroup)
+                                        <td>普通用户</td>
+                                    #else
+                                        <td>其它用户</td>
+                                    #end
+                                    <td><a href="#" class="needTip deleteCurrentRow" userId="$!user.id"  data-toggle="tooltip" data-placement="top" title="删除当前行" style="margin-left:5px;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
+                                </tr>
+
+                            #end
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  deleted Modal -->
+<div class="modal fade" id="myDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog" style="  width: 400px;margin-top: 160px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myDeleteLabel">删除当前User</h4>
+            </div>
+            <div class="modal-body">
+                <span id="deleteUserTip">确定要删除当前User么？</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureDelete">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  deleted Modal -->
+<div class="modal fade" id="myAddUserModal" tabindex="-1" role="dialog" aria-labelledby="myAddUserLabel" aria-hidden="true">
+    <div class="modal-dialog" style="  width: 400px;margin-top: 160px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myAddUserLabel">新增用户</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="addUserConfig">
+
+                    <div class="form-group">
+                        <label for="userGroup" class="col-sm-3 control-label" >所属组</label>
+                        <div class="col-sm-6">
+                            <select id="userGroup" name="userGroup" class="form-control" >
+                                <option value="1" >管理员</option>
+                                <option value="2" selected>普通用户</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="User" class="col-sm-3 control-label" id="UserLabel">用户</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control required" name="User" id="User" placeholder="user name" value="">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="sureAdd">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="currentUserId" value="0" />
+<input type="hidden" id="env" value="$!results.get('env')">
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/statics/js/jquery.js"></script>
+<script src="/statics/js/bootstrap.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/statics/js/jquery.validate.js"></script>
+<script src="/statics/js/jquery.metadata.js"></script>
+<script src="/statics/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/statics/js/locales/bootstrap-datetimepicker.fr.js"></script>
+<script src="/statics/js/highcharts.js"></script>
+<script src="/statics/js/jquery.dataTables.min.js"></script>
+<script src="/statics/js/user.js"></script>
+</body>
+</html>

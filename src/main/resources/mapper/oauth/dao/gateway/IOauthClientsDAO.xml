@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.gateway.oauth.dao.gateway.IOauthClientsDAO">
+    <resultMap id="BaseResultMap" type="com.caitu99.gateway.oauth.model.OpenOauthClients">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="client_id" property="clientId" jdbcType="VARCHAR"/>
+        <result column="client_secret" property="clientSecret" jdbcType="VARCHAR"/>
+        <result column="client_name" property="clientName" jdbcType="VARCHAR"/>
+        <result column="redirect_uri" property="redirectUri" jdbcType="VARCHAR"/>
+        <result column="grant_types" property="grantTypes" jdbcType="VARCHAR"/>
+        <result column="scope" property="scope" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="client_type" property="clientType" jdbcType="VARCHAR"/>
+        <result column="client_num" property="clientNum" jdbcType="TINYINT"/>
+        <result column="client_source" property="clientSource" jdbcType="VARCHAR"/>
+        <result column="default_scope" property="defaultScope" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, client_id, client_secret, client_name, redirect_uri, grant_types, scope, user_id,
+        client_type, client_num, client_source, default_scope
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_oauth_clients
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getByClientId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_oauth_clients
+        where client_id = #{clientId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_oauth_clients
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_oauth_clients
+    </select>
+
+
+    <select id="getClientIdList" resultType="java.lang.String">
+        select DISTINCT client_id  from t_oauth_clients
+    </select>
+
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from t_oauth_clients
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByClientId">
+        delete from t_oauth_clients
+        where client_id = #{clientId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="save" parameterType="com.caitu99.gateway.oauth.model.OpenOauthClients" useGeneratedKeys="true" keyProperty="id">
+        insert into t_oauth_clients
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="clientId != null">
+                client_id,
+            </if>
+            <if test="clientSecret != null">
+                client_secret,
+            </if>
+            <if test="clientName != null">
+                client_name,
+            </if>
+            <if test="redirectUri != null">
+                redirect_uri,
+            </if>
+            <if test="grantTypes != null">
+                grant_types,
+            </if>
+            <if test="scope != null">
+                scope,
+            </if>
+            <if test="defaultScope != null">
+                default_scope,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="clientType != null">
+                client_type,
+            </if>
+            <if test="clientNum != null">
+                client_num,
+            </if>
+            <if test="clientSource != null">
+                client_source,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="clientId != null">
+                #{clientId,jdbcType=VARCHAR},
+            </if>
+            <if test="clientSecret != null">
+                #{clientSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="clientName != null">
+                #{clientName,jdbcType=VARCHAR},
+            </if>
+            <if test="redirectUri != null">
+                #{redirectUri,jdbcType=VARCHAR},
+            </if>
+            <if test="grantTypes != null">
+                #{grantTypes,jdbcType=VARCHAR},
+            </if>
+            <if test="scope != null">
+                #{scope,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultScope != null">
+                #{defaultScope,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="clientType != null">
+                #{clientType,jdbcType=VARCHAR},
+            </if>
+            <if test="clientNum != null">
+                #{clientNum,jdbcType=TINYINT},
+            </if>
+            <if test="clientSource != null">
+                #{clientSource,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.caitu99.gateway.oauth.model.OpenOauthClients">
+        update t_oauth_clients
+        <set>
+            <if test="clientId != null">
+                client_id = #{clientId,jdbcType=VARCHAR},
+            </if>
+            <if test="clientSecret != null">
+                client_secret = #{clientSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="clientName != null">
+                client_name = #{clientName,jdbcType=VARCHAR},
+            </if>
+            <if test="redirectUri != null">
+                redirect_uri = #{redirectUri,jdbcType=VARCHAR},
+            </if>
+            <if test="grantTypes != null">
+                grant_types = #{grantTypes,jdbcType=VARCHAR},
+            </if>
+            <if test="scope != null">
+                scope = #{scope,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="clientType != null">
+                client_type = #{clientType,jdbcType=VARCHAR},
+            </if>
+            <if test="clientNum != null">
+                client_num = #{clientNum,jdbcType=TINYINT},
+            </if>
+            <if test="clientSource != null">
+                client_source = #{clientSource,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

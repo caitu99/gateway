@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Gateway</title>
+
+    <!-- Bootstrap -->
+    <link href="/statics/css/bootstrap.css" rel="stylesheet" />
+    <link href="/statics/css/font-awesome.css" rel="stylesheet" />
+    <link href="/statics/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="/statics/css/manual.css" rel="stylesheet" />
+
+    <!--<link href="favicon.ico" mce_href="favicon.ico" rel="bookmark" type="image/x-icon" />-->
+    <!--<link href="favicon.ico" mce_href="favicon.ico" rel="icon" type="image/x-icon" />-->
+    <link href="/statics/images/favicon.ico"  rel="Shortcut Icon"/>
+
+
+</head>
+<body>
+
+<!-- 导航条 -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="apilist?env=$!results.get('env')">
+                <img alt="Brand" class="logo"  src="/statics/imag/logo2.jpg">
+            </a>
+
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active1"><a href="apilist?env=$!results.get('env')"><h3 style="margin:0 0 0 0;">Gateway</h3> <span class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul id="myTitle" class="nav nav-pills" style="margin:9px 0 0 0;">
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Home</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Config</a></li>
+                <li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Release</a></li>
+                <!--<li role="presentation" ><a href="#" role="tab" data-toggle="tab" class="titles">Monitor</a></li>-->
+                <li role="presentation" class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="tab" aria-haspopup="true" aria-expanded="false"><span id="consoleText">Manual</span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" >
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console ">Monitor</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Manual</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Cache</a></li>
+                        <li><a href="#" role="tab" data-toggle="tab" class="titles console">Instance</a></li>
+                        #if($!results.get("isAdmin"))
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">LogView</a></li>
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">Users</a></li>
+                            <li><a href="#" role="tab" data-toggle="tab" class="titles console">RecoverApi</a></li>
+                        #end
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin:-50px 50px 0 0;"><p class="navbar-text">Welcome <span class="glyphicon glyphicon-user"></span> $!results.get('data')</p></li>
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+
+
+<div id="manualInfo" style="min-height: 4000px;">
+    <h1 style="text-align:center;margin-bottom:30px;">API配置用户手册</h1>
+    <p>API配置有dubbo和PHP两种，dubbo服务接口有7个配置步骤，PHP服务接口有6个配置步骤。</p>
+    <p>下面依次讲解配置一个API的步骤：</p>
+    <div class="page-header cut">
+        <h3><small>1. 操作环境</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step1.jpg" class="examplePicture" />
+    </div>
+    <p>dev表示你在开发环境中；test表示你在测试环境中；product表示你在生产环境中。<br/>
+        配置时一开始都在dev环境，通过测试之后在将配置信息同步到生产环境。<br/>
+        测试环境目前保留。
+    </p>
+    <div class="page-header cut">
+        <h3><small>2. 点击此按钮新建一个API</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step2.jpg" class="examplePicture" />
+    </div>
+    <p>新建API。</p>
+    <div class="page-header cut">
+        <h3><small>3. 选择API服务类型</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step3.jpg" class="examplePicture" />
+    </div>
+    <p>根据你的服务是PHP还是Java，选择相应的服务。Java对应Dubblo，PHP对应PHP。</p>
+    <div class="page-header cut">
+        <h3><small>4. 配置API的相关控制信息</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step4.jpg" class="examplePicture" />
+    </div>
+    <p>这里每一个参数都是必填项。</p>
+    <div class="page-header cut">
+        <h3><small>5. 检测当前API的配置是否已经存在</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step5.jpg" class="examplePicture" />
+    </div>
+    <p>namespace, method, version三者的组合确定一个唯一的API。数据库中不允许重复的API出现。<br/>
+       出现绿色提示，表示API之前没有配置过，可以继续下一步。
+        如果出现红色提示，表示API已经配置过，你需要修改namespace,method,version三者中的一种一个或几个。
+    </p>
+    <div class="page-header cut">
+        <h3><small>6. API参数配置</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step6.jpg" class="examplePicture" />
+    </div>
+    <p>点击新增行可以新增一个参数。</p>
+    <div class="page-header cut">
+        <h3><small>7. 新增的参数</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step7.jpg" class="examplePicture" />
+    </div>
+    <p>除了校验规则，其它选项为必填项。</p>
+    <div class="page-header cut">
+        <h3><small>8. 配置内部方法及其参数</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step8.jpg" class="examplePicture" />
+    </div>
+    <p>serviceName, method, version三者确定一个唯一的内部方法。<br/>
+        内部方法的参数名和基本类型是必填项。参数类型不用填。参数次序序号对于PHP配置是用来排序的，不填的话每次顺序是随机的。否则按照升序排序。
+    </p>
+    <div class="page-header cut">
+        <h3><small>9. 检测内部方法是否已经配置过</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step9.jpg" class="examplePicture" />
+    </div>
+    <p>这里每一个参数都是必填项。</p>
+    <div class="page-header cut">
+        <h3><small>10. 内部方法的检测结果</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step10.jpg" class="examplePicture" />
+    </div>
+    <p>出现绿色提示，表示这个内部方法没有配置过，可以继续配置<br/>
+        如果出现红色提示，表示这个内部方法已经配置过了。想要继续配置必须先修改serviceName, method, version三者中的一个或多个。
+    </p>
+    <div class="page-header cut">
+        <h3><small>11. 检查参数映射关系是否已经存在</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step11.jpg" class="examplePicture" />
+    </div>
+    <div class="page-header cut">
+        <h3><small>12. 参数映射检测结果</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step12.jpg" class="examplePicture" />
+    </div>
+    <p>如果前面的步骤通过，这一步理论上是通过的。为了确保映射关系的唯一性，这里做了一次检测。</p>
+    <div class="page-header cut">
+        <h3><small>13. 参数映射</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step13.jpg" class="examplePicture" />
+    </div>
+    <p>这是所有配置中最复杂的一步。<br/>
+    </p>
+    <div class="page-header cut">
+        <h3><small>14. 参数映射示例</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step14.jpg" class="examplePicture" />
+    </div>
+    <p>参数来源有3种：<br/>
+        API参数对应你前面API配置中的参数。
+        内部参数对应API接口中没有，但是方法中有的参数，比如admin_id, client_id.
+        自定义参数目前保留。
+    </p>
+    <div class="page-header cut">
+        <h3><small>15. 预览</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step15.jpg" class="examplePicture" />
+    </div>
+    <p>填写完成之后，可以预览之前的所有配置，看是否符合期望。</p>
+    <div class="page-header cut">
+        <h3><small>17. 预览结果</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step17.jpg" class="examplePicture" />
+    </div>
+    <div class="page-header cut">
+        <h3><small>18. 保存</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step18.jpg" class="examplePicture" />
+    </div>
+    <p>点击保存，如果成功会跳到首页。保存并继续按钮会继续配置新的接口</p>
+    <div class="page-header cut">
+        <h3><small>19. 保存之后的结果</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step19.jpg" class="examplePicture" />
+    </div>
+    <p>成功新建的接口会显示在首页的最上方。</p>
+    <div class="page-header cut">
+        <h3><small>20. 编辑按钮</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step20.jpg" class="examplePicture" />
+    </div>
+    <p>点此按钮可以编辑之前配置好的API。与新建API不同的地方在于编辑状态不能修改API的类型，而且修改没有检测步骤。</p>
+    <div class="page-header cut">
+        <h3><small>21. 测试按钮</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step21.jpg" class="examplePicture" />
+    </div>
+    <p>你的API配置完成，确认无误之后，需要测试它是否能调用并返回正确结果。</p>
+    <div class="page-header cut">
+        <h3><small>22. 把通过测试的API添加到资源表中</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step22.jpg" class="examplePicture" />
+    </div>
+    <p>要想已通过测试的API能背调用，需要先把API添加到资源表中，选择一个相应的资源组。<br/>
+        如果没有资源组，还需要新建一个资源组。
+    </p>
+    <div class="page-header cut">
+        <h3><small>23. 修改白名单</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step23.jpg" class="examplePicture" />
+    </div>
+    <p>完成前面步骤，需要修改把接口加入白名单才能访问。</p>
+    <div class="page-header cut">
+        <h3><small>24. 启用与禁用</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step24.jpg" class="examplePicture" />
+    </div>
+    <p>启用表示这个接口能通过Carmen调用。禁用表示Carmen禁止对这个接口的调用返回unavailable service。</p>
+    <div class="page-header cut">
+        <h3><small>26. 监控</small></h3>
+    </div>
+    <div>
+        <img src="/statics/images/step26.jpg" class="examplePicture" />
+    </div>
+
+
+    <p>点击此按钮可以跳到监控页面，展示这个API对应的监控数据。<br/></p>
+
+</div>
+
+<input type="hidden" id="env" value="$!results.get('env')">
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/statics/js/jquery.js"></script>
+<script src="/statics/js/bootstrap.js"></script>
+<script src="/statics/js/jquery.validate.min.js"></script>
+<script src="/statics/js/jquery.metadata.js"></script>
+<script src="/statics/js/jquery.dataTables.min.js"></script>
+<script src="/statics/js/manual.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+
+<footer style="margin-top: -20px;">
+    <hr>
+    <p class="text-muted text-center">© caitu99.com</p>
+</footer>
+</body>
+</html>

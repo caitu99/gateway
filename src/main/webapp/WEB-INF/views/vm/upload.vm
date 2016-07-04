@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv=refresh content="5;url=release">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Gateway</title>
+
+    <!-- Bootstrap -->
+    <link href="/statics/css/bootstrap.css" rel="stylesheet" />
+    <link href="/statics/css/font-awesome.css" rel="stylesheet" />
+
+
+</head>
+<body>
+#if("fail" == $!results)
+    <div style="margin-left: 40%;margin-top: 10%;margin-bottom: 30%;"><p><i class="icon-refresh icon-spin" style="margin-right: 6px;"></i>Sorry，上传失败，5秒钟后跳转回发布页面</p></div>
+#else
+    <div style="margin-left: 40%;margin-top: 10%;margin-bottom: 30%;"><p><i class="icon-refresh icon-spin" style="margin-right: 6px;"></i>恭喜你，上传成功，5秒钟后跳转回发布页面</p></div>
+#end
+
+<footer style="margin-top: -20px;">
+    <hr>
+    <p class="text-muted text-center">© caitu99.com</p>
+</footer>
+</body>
+</html>

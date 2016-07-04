@@ -1,0 +1,15 @@
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-top: -10px;
+  margin-left: 19px;
+}
+
+.Monitor {
+  min-height: 600px;
+  margin-top: 60px;
+}
+
+.dropdown-menu {
+    min-width: 100px;
+}
